@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState, useCallback, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import {
   ReactFlow,
@@ -89,7 +89,9 @@ export default function AgentsPage() {
   const [nodes, setNodes, onNodesChange] = useNodesState<Node>([])
   const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>([])
   const [selected, setSelected] = useState<Agent | null>(null)
+  const [pinned, setPinned] = useState(false)
   const [hovered, setHovered] = useState<{ agent: Agent; x: number; y: number } | null>(null)
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
   const [message, setMessage] = useState('')
   const [sending, setSending] = useState(false)
   const [sendResult, setSendResult] = useState<string | null>(null)
@@ -122,10 +124,17 @@ export default function AgentsPage() {
   )
 
   const onNodeClick = useCallback((_: React.MouseEvent, node: Node) => {
-    setSelected((node.data as { agent: Agent }).agent)
+    const agent = (node.data as { agent: Agent }).agent
+    setSelected(agent)
     setHovered(null)
     setSendResult(null)
     setMessage('')
+    setPinned(false)
+    // Auto-close sidebar after 8 seconds unless pinned
+    if (closeTimer.current) clearTimeout(closeTimer.current)
+    closeTimer.current = setTimeout(() => {
+      setPinned(prev => { if (!prev) setSelected(null); return prev })
+    }, 8000)
   }, [])
 
   const onNodeMouseEnter = useCallback((e: React.MouseEvent, node: Node) => {
@@ -254,9 +263,16 @@ export default function AgentsPage() {
       <div className={`${selected ? 'w-80' : 'w-0'} bg-zinc-900 border-l border-zinc-800 flex flex-col transition-all duration-200 overflow-hidden flex-shrink-0`}>
         {selected ? (
           <div className="p-5 flex flex-col h-full">
+            {/* Auto-close progress bar */}
+            {!pinned && (
+              <div className="h-0.5 bg-zinc-800 mb-4 rounded overflow-hidden">
+                <div className="h-full bg-zinc-600 animate-[shrink_8s_linear_forwards]" style={{width:'100%'}} />
+              </div>
+            )}
+
             <div className="flex items-start justify-between mb-4">
               <div>
-                <h2 className="text-white font-bold">{selected.name}</h2>
+                <h2 className="text-white font-bold text-lg">{selected.name}</h2>
                 {selected.botUsername && (
                   <a
                     href={`https://t.me/${selected.botUsername}`}
@@ -272,13 +288,22 @@ export default function AgentsPage() {
                 )}
                 {selected.project && <p className="text-zinc-400 text-xs mt-1">{selected.project.name}</p>}
               </div>
-              <span className={`text-xs px-2 py-1 rounded-full ${selected.isActive ? 'bg-green-950 text-green-400' : 'bg-zinc-800 text-zinc-500'}`}>
-                {selected.isActive ? 'Active' : 'Inactive'}
-              </span>
+              <div className="flex items-center gap-2">
+                <span className={`text-xs px-2 py-1 rounded-full ${selected.isActive ? 'bg-green-950 text-green-400' : 'bg-zinc-800 text-zinc-500'}`}>
+                  {selected.isActive ? 'Active' : 'Inactive'}
+                </span>
+                <button
+                  onClick={() => { setPinned(p => !p); if (closeTimer.current) clearTimeout(closeTimer.current) }}
+                  title={pinned ? 'Unpin (auto-close)' : 'Pin (keep open)'}
+                  className={`text-xs px-2 py-1 rounded-full border transition ${pinned ? 'border-blue-500 text-blue-400' : 'border-zinc-700 text-zinc-500 hover:text-zinc-300'}`}
+                >
+                  {pinned ? '📌' : '📍'}
+                </button>
+              </div>
             </div>
 
             {selected.description && (
-              <p className="text-zinc-400 text-sm mb-4 leading-relaxed">{selected.description}</p>
+              <p className="text-zinc-300 text-sm mb-5 leading-relaxed border-l-2 border-zinc-700 pl-3">{selected.description}</p>
             )}
 
             <div className="flex-1">

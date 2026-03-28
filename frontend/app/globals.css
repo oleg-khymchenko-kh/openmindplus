@@ -28,3 +28,8 @@ body {
   background: #3f3f46;
   color: #fafafa;
 }
+
+@keyframes shrink {
+  from { width: 100%; }
+  to { width: 0%; }
+}

@@ -15,11 +15,16 @@ model User {
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 
+  commands  AgentCommand[]
+
   @@map("users")
 }
 
 enum Role {
+  SUPER_ADMIN
   ADMIN
+  OPERATOR
+  VIEWER
 }
 
 model TeamMember {
@@ -58,6 +63,7 @@ model Project {
   updatedAt   DateTime @updatedAt @map("updated_at")
 
   members     ProjectMember[]
+  agents      Agent[]
 
   @@map("projects")
 }
@@ -70,6 +76,50 @@ model ProjectMember {
 
   @@id([projectId, memberId])
   @@map("project_members")
+}
+
+model Agent {
+  id           Int      @id @default(autoincrement())
+  name         String
+  description  String?
+  botToken     String   @map("bot_token")        // Telegram bot token
+  botUsername  String?  @map("bot_username")     // @username
+  chatId       String?  @map("chat_id")          // Default chat to send messages to
+  project      Project? @relation(fields: [projectId], references: [id])
+  projectId    Int?     @map("project_id")
+  parent       Agent?   @relation("AgentHierarchy", fields: [parentId], references: [id])
+  parentId     Int?     @map("parent_id")
+  children     Agent[]  @relation("AgentHierarchy")
+  posX         Float    @default(0) @map("pos_x") // Visual position on canvas
+  posY         Float    @default(0) @map("pos_y")
+  color        String   @default("#3b82f6")       // Node color on canvas
+  isActive     Boolean  @default(true) @map("is_active")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  commands     AgentCommand[]
+
+  @@map("agents")
+}
+
+model AgentCommand {
+  id        Int      @id @default(autoincrement())
+  agent     Agent    @relation(fields: [agentId], references: [id])
+  agentId   Int      @map("agent_id")
+  sentBy    User     @relation(fields: [sentById], references: [id])
+  sentById  Int      @map("sent_by_id")
+  message   String
+  response  String?
+  status    CommandStatus @default(PENDING)
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("agent_commands")
+}
+
+enum CommandStatus {
+  PENDING
+  SENT
+  FAILED
 }
 
 model ContactMessage {

@@ -24,12 +24,14 @@ import healthRoutes from './routes/health.js'
 import teamRoutes from './routes/team.js'
 import projectRoutes from './routes/projects.js'
 import contactRoutes from './routes/contact.js'
+import agentRoutes from './routes/agents.js'
 
 await app.register(authRoutes, { prefix: '/api/auth' })
 await app.register(healthRoutes, { prefix: '/api' })
 await app.register(teamRoutes, { prefix: '/api/team' })
 await app.register(projectRoutes, { prefix: '/api/projects' })
 await app.register(contactRoutes, { prefix: '/api/contact' })
+await app.register(agentRoutes, { prefix: '/api/agents' })
 
 // Start server
 const PORT = process.env.PORT || 4000

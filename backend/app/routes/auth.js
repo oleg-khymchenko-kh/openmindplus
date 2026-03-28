@@ -1,20 +1,23 @@
-// Temporary in-memory auth (replace with DB later)
-const ADMIN_USER = {
-  email: process.env.ADMIN_EMAIL || 'admin@openmindplus.com',
-  password: process.env.ADMIN_PASSWORD || 'changeme',
-}
+import bcrypt from 'bcrypt'
+import prisma from '../lib/prisma.js'
 
 export default async function authRoutes(app) {
   // POST /api/auth/login
   app.post('/login', async (request, reply) => {
     const { email, password } = request.body
 
-    if (email !== ADMIN_USER.email || password !== ADMIN_USER.password) {
+    const user = await prisma.user.findUnique({ where: { email } })
+    if (!user) {
+      return reply.status(401).send({ error: 'Invalid credentials' })
+    }
+
+    const valid = await bcrypt.compare(password, user.password)
+    if (!valid) {
       return reply.status(401).send({ error: 'Invalid credentials' })
     }
 
     const token = app.jwt.sign(
-      { email, role: 'admin' },
+      { id: user.id, email: user.email, role: user.role },
       { expiresIn: '7d' }
     )
 
@@ -25,7 +28,7 @@ export default async function authRoutes(app) {
       maxAge: 60 * 60 * 24 * 7,
     })
 
-    return { ok: true, email }
+    return { ok: true, email: user.email, role: user.role }
   })
 
   // POST /api/auth/logout

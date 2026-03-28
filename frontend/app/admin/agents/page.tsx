@@ -211,8 +211,17 @@ export default function AgentsPage() {
             <div className="flex items-start justify-between mb-4">
               <div>
                 <h2 className="text-white font-bold">{selected.name}</h2>
-                {selected.botUsername && <p className="text-zinc-500 text-xs mt-0.5">@{selected.botUsername}</p>}
-                {selected.project && <p className="text-blue-400 text-xs mt-0.5">{selected.project.name}</p>}
+                {selected.botUsername && (
+                  <a
+                    href={`https://t.me/${selected.botUsername}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-400 text-xs mt-0.5 hover:text-blue-300 transition-colors inline-flex items-center gap-1"
+                  >
+                    ✈️ @{selected.botUsername}
+                  </a>
+                )}
+                {selected.project && <p className="text-zinc-400 text-xs mt-1">{selected.project.name}</p>}
               </div>
               <span className={`text-xs px-2 py-1 rounded-full ${selected.isActive ? 'bg-green-950 text-green-400' : 'bg-zinc-800 text-zinc-500'}`}>
                 {selected.isActive ? 'Active' : 'Inactive'}

@@ -1,19 +1,12 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 
 export default function AdminLogin() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
-
-  // If already logged in, redirect to dashboard
-  useEffect(() => {
-    fetch('/api/auth/me', { credentials: 'include' })
-      .then(r => { if (r.ok) window.location.href = '/admin/dashboard' })
-      .catch(() => {})
-  }, [])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -35,7 +28,6 @@ export default function AdminLogin() {
         return
       }
 
-      // Force full page navigation so cookie is sent with next request
       window.location.href = '/admin/dashboard'
     } catch (err) {
       setError(`Connection error: ${err instanceof Error ? err.message : 'unknown'}`)

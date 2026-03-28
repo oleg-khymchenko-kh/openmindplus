@@ -1,13 +1,31 @@
 'use client'
 
 import Link from 'next/link'
-
-function logout() {
-  fetch('/api/auth/logout', { method: 'POST', credentials: 'include' })
-    .then(() => { window.location.href = '/admin/login' })
-}
+import { useEffect, useState } from 'react'
 
 export default function AdminDashboard() {
+  const [authed, setAuthed] = useState(false)
+
+  useEffect(() => {
+    fetch('/api/auth/me', { credentials: 'include' })
+      .then(r => {
+        if (!r.ok) { window.location.href = '/admin/login'; return }
+        setAuthed(true)
+      })
+      .catch(() => { window.location.href = '/admin/login' })
+  }, [])
+
+  function logout() {
+    fetch('/api/auth/logout', { method: 'POST', credentials: 'include' })
+      .finally(() => { window.location.href = '/admin/login' })
+  }
+
+  if (!authed) {
+    return <div className="min-h-screen bg-zinc-950 flex items-center justify-center">
+      <p className="text-zinc-500 text-sm animate-pulse">Loading...</p>
+    </div>
+  }
+
   return (
     <main className="min-h-screen bg-zinc-950 p-8">
       <div className="max-w-4xl mx-auto">

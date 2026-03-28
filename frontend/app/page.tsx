@@ -14,7 +14,7 @@ export default function Home() {
         </h1>
         <p className="text-lg sm:text-xl text-zinc-400 max-w-xl mx-auto mb-10 leading-relaxed">
           We find broken systems and build smarter tools to fix them.
-          12 minds — engineers, researchers, writers, and AI agents — working as one.
+          12 minds — engineers, researchers, writers, and AI agents — working across borders as one team.
         </p>
         <div className="flex flex-col sm:flex-row gap-3 w-full max-w-xs sm:max-w-none sm:w-auto justify-center">
           <Link href="/projects"
@@ -64,7 +64,7 @@ export default function Home() {
           {[
             { value: '12+', label: 'Team members' },
             { value: '1',   label: 'Live project' },
-            { value: 'UK',  label: 'Market focus' },
+            { value: '🌍',  label: 'Global reach' },
             { value: 'AI',  label: 'Powered' },
           ].map(s => (
             <div key={s.label}>

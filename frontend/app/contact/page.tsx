@@ -26,15 +26,16 @@ export default function ContactPage() {
   }
 
   return (
-    <main className="min-h-screen bg-white py-20 px-6">
-      <div className="max-w-xl mx-auto">
-        <h1 className="text-4xl font-bold text-gray-900 mb-4">Contact</h1>
-        <p className="text-gray-500 mb-10">
-          Have a question or want to work with us? Drop us a message or reach out to the team on social media.
+    <main className="min-h-screen bg-zinc-950 py-20 px-5">
+      <div className="max-w-lg mx-auto">
+        <p className="text-xs font-semibold text-zinc-500 uppercase tracking-widest mb-4">Contact</p>
+        <h1 className="text-4xl sm:text-5xl font-bold text-zinc-100 mb-4 tracking-tight">Get in touch</h1>
+        <p className="text-zinc-400 mb-12 text-base">
+          Have a question or want to work with us? Drop us a message or find us on social media.
         </p>
 
         {status === 'success' ? (
-          <div className="bg-green-50 border border-green-200 rounded-xl p-6 text-green-700">
+          <div className="border border-zinc-700 bg-zinc-900/50 rounded-xl p-6 text-zinc-300 text-center">
             ✅ Message sent! We'll get back to you soon.
           </div>
         ) : (
@@ -45,7 +46,7 @@ export default function ContactPage() {
               value={name}
               onChange={e => setName(e.target.value)}
               required
-              className="w-full border border-gray-200 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full bg-zinc-900 text-zinc-100 border border-zinc-800 rounded-xl px-4 py-3 text-sm placeholder-zinc-600 focus:outline-none focus:border-zinc-600 transition-colors"
             />
             <input
               type="email"
@@ -53,7 +54,7 @@ export default function ContactPage() {
               value={email}
               onChange={e => setEmail(e.target.value)}
               required
-              className="w-full border border-gray-200 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full bg-zinc-900 text-zinc-100 border border-zinc-800 rounded-xl px-4 py-3 text-sm placeholder-zinc-600 focus:outline-none focus:border-zinc-600 transition-colors"
             />
             <textarea
               placeholder="Your message"
@@ -61,23 +62,23 @@ export default function ContactPage() {
               onChange={e => setMessage(e.target.value)}
               required
               rows={5}
-              className="w-full border border-gray-200 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+              className="w-full bg-zinc-900 text-zinc-100 border border-zinc-800 rounded-xl px-4 py-3 text-sm placeholder-zinc-600 focus:outline-none focus:border-zinc-600 transition-colors resize-none"
             />
             {status === 'error' && (
-              <p className="text-red-500 text-sm">Something went wrong. Please try again.</p>
+              <p className="text-red-400 text-sm">Something went wrong. Please try again.</p>
             )}
             <button
               type="submit"
               disabled={status === 'loading'}
-              className="w-full bg-blue-600 text-white rounded-lg py-3 font-semibold hover:bg-blue-700 disabled:opacity-50 transition"
+              className="w-full bg-zinc-100 text-zinc-900 rounded-xl py-3 text-sm font-semibold hover:bg-white disabled:opacity-50 transition-colors"
             >
               {status === 'loading' ? 'Sending...' : 'Send Message'}
             </button>
           </form>
         )}
 
-        <p className="text-sm text-gray-400 mt-8 text-center">
-          Or email us directly: <a href="mailto:hello@openmindplus.com" className="text-blue-500 hover:underline">hello@openmindplus.com</a>
+        <p className="text-xs text-zinc-600 mt-8 text-center">
+          Or email us: <a href="mailto:hello@openmindplus.com" className="text-zinc-500 hover:text-zinc-300 transition-colors">hello@openmindplus.com</a>
         </p>
       </div>
     </main>

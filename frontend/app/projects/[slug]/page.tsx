@@ -8,9 +8,7 @@ async function getProject(slug: string) {
     })
     if (!res.ok) return null
     return res.json()
-  } catch {
-    return null
-  }
+  } catch { return null }
 }
 
 export async function generateStaticParams() {
@@ -19,9 +17,7 @@ export async function generateStaticParams() {
     if (!res.ok) return []
     const projects = await res.json()
     return projects.map((p: { slug: string }) => ({ slug: p.slug }))
-  } catch {
-    return []
-  }
+  } catch { return [] }
 }
 
 export default async function ProjectPage({ params }: { params: { slug: string } }) {
@@ -29,53 +25,46 @@ export default async function ProjectPage({ params }: { params: { slug: string }
   if (!project) notFound()
 
   return (
-    <main className="min-h-screen bg-white py-20 px-6">
+    <main className="min-h-screen bg-zinc-950 py-20 px-5">
       <div className="max-w-3xl mx-auto">
-        <Link href="/projects" className="text-blue-600 hover:underline text-sm mb-8 inline-block">
+        <Link href="/projects" className="inline-flex items-center gap-2 text-zinc-500 hover:text-zinc-300 text-sm mb-10 transition-colors">
           ← Back to Projects
         </Link>
 
-        <h1 className="text-4xl font-bold text-gray-900 mb-3">{project.name}</h1>
-        {project.tagline && (
-          <p className="text-xl text-gray-500 mb-6">{project.tagline}</p>
-        )}
-        {project.url && (
-          <a
-            href={project.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-block mb-8 text-blue-600 hover:underline"
-          >
-            🌐 {project.url}
-          </a>
-        )}
+        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-6">
+          <div>
+            <h1 className="text-4xl sm:text-5xl font-bold text-zinc-100 tracking-tight mb-3">{project.name}</h1>
+            {project.tagline && (
+              <p className="text-xl text-zinc-400">{project.tagline}</p>
+            )}
+          </div>
+          {project.url && (
+            <a href={project.url} target="_blank" rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 text-xs font-semibold text-zinc-400 border border-zinc-700 rounded-lg px-4 py-2.5 hover:border-zinc-500 hover:text-zinc-200 transition-colors whitespace-nowrap self-start">
+              Visit site ↗
+            </a>
+          )}
+        </div>
+
         {project.description && (
-          <p className="text-gray-600 leading-relaxed mb-12">{project.description}</p>
+          <p className="text-zinc-400 leading-relaxed mb-16 text-base border-t border-zinc-800 pt-8">{project.description}</p>
         )}
 
         {project.members?.length > 0 && (
           <div>
-            <h2 className="text-lg font-semibold text-gray-900 mb-6">Team</h2>
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
+            <h2 className="text-xs font-semibold text-zinc-500 uppercase tracking-widest mb-8 border-b border-zinc-800 pb-4">Team</h2>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
               {project.members.map((pm: { member: { slug: string; name: string; role: string; photoUrl: string | null } }) => (
-                <Link
-                  key={pm.member.slug}
-                  href={`/team/${pm.member.slug}`}
-                  className="text-center group"
-                >
-                  <div className="w-16 h-16 rounded-full bg-gray-100 mx-auto mb-2 overflow-hidden">
-                    {pm.member.photoUrl ? (
-                      <img src={pm.member.photoUrl} alt={pm.member.name} className="w-full h-full object-cover" />
-                    ) : (
-                      <div className="w-full h-full flex items-center justify-center text-xl text-gray-300">
-                        {pm.member.name[0]}
-                      </div>
-                    )}
+                <Link key={pm.member.slug} href={`/team/${pm.member.slug}`}
+                  className="group flex flex-col items-center text-center p-4 rounded-xl border border-transparent hover:border-zinc-700 hover:bg-zinc-900/50 transition-all">
+                  <div className="w-14 h-14 rounded-full bg-zinc-800 mb-3 overflow-hidden flex items-center justify-center">
+                    {pm.member.photoUrl
+                      ? <img src={pm.member.photoUrl} alt={pm.member.name} className="w-full h-full object-cover" />
+                      : <span className="text-lg font-bold text-zinc-500">{pm.member.name[0]}</span>
+                    }
                   </div>
-                  <p className="text-sm font-semibold text-gray-900 group-hover:text-blue-600 transition">
-                    {pm.member.name}
-                  </p>
-                  <p className="text-xs text-gray-400">{pm.member.role}</p>
+                  <p className="text-xs font-semibold text-zinc-300 group-hover:text-white transition-colors leading-tight mb-0.5">{pm.member.name}</p>
+                  <p className="text-xs text-zinc-600 leading-tight">{pm.member.role}</p>
                 </Link>
               ))}
             </div>

@@ -15,9 +15,7 @@ async function getTeam(): Promise<TeamMember[]> {
     })
     if (!res.ok) return []
     return res.json()
-  } catch {
-    return []
-  }
+  } catch { return [] }
 }
 
 export default async function TeamPage() {
@@ -26,11 +24,12 @@ export default async function TeamPage() {
   const content = team.filter(m => m.department === 'content')
 
   return (
-    <main className="min-h-screen bg-white py-20 px-6">
+    <main className="min-h-screen bg-zinc-950 py-20 px-5">
       <div className="max-w-5xl mx-auto">
-        <h1 className="text-4xl font-bold text-gray-900 mb-4">Our Team</h1>
-        <p className="text-lg text-gray-500 mb-16">
-          12 minds. Engineers, researchers, writers — building tools for a better world.
+        <p className="text-xs font-semibold text-zinc-500 uppercase tracking-widest mb-4">The Team</p>
+        <h1 className="text-4xl sm:text-5xl font-bold text-zinc-100 mb-4 tracking-tight">12 minds. One vision.</h1>
+        <p className="text-zinc-400 text-lg mb-16 max-w-xl">
+          Engineers, researchers, writers — and AI agents — all working toward the same goal.
         </p>
 
         <Section title="AI & Engineering" members={engineering} />
@@ -43,21 +42,19 @@ export default async function TeamPage() {
 function Section({ title, members }: { title: string; members: TeamMember[] }) {
   return (
     <div className="mb-16">
-      <h2 className="text-xl font-semibold text-gray-400 uppercase tracking-widest mb-8">{title}</h2>
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-8">
+      <h2 className="text-xs font-semibold text-zinc-500 uppercase tracking-widest mb-8 border-b border-zinc-800 pb-4">{title}</h2>
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
         {members.map(m => (
-          <Link key={m.slug} href={`/team/${m.slug}`} className="group text-center">
-            <div className="w-24 h-24 rounded-full bg-gray-100 mx-auto mb-3 overflow-hidden">
-              {m.photoUrl ? (
-                <img src={m.photoUrl} alt={m.name} className="w-full h-full object-cover" />
-              ) : (
-                <div className="w-full h-full flex items-center justify-center text-3xl text-gray-300">
-                  {m.name[0]}
-                </div>
-              )}
+          <Link key={m.slug} href={`/team/${m.slug}`}
+            className="group flex flex-col items-center text-center p-4 rounded-xl border border-transparent hover:border-zinc-700 hover:bg-zinc-900/50 transition-all">
+            <div className="w-20 h-20 rounded-full bg-zinc-800 mb-4 overflow-hidden flex items-center justify-center">
+              {m.photoUrl
+                ? <img src={m.photoUrl} alt={m.name} className="w-full h-full object-cover" />
+                : <span className="text-2xl font-bold text-zinc-500">{m.name[0]}</span>
+              }
             </div>
-            <p className="font-semibold text-gray-900 group-hover:text-blue-600 transition">{m.name}</p>
-            <p className="text-sm text-gray-500">{m.role}</p>
+            <p className="font-semibold text-zinc-100 text-sm group-hover:text-white transition-colors leading-tight mb-1">{m.name}</p>
+            <p className="text-xs text-zinc-500 leading-tight">{m.role}</p>
           </Link>
         ))}
       </div>

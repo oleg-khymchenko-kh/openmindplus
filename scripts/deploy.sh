@@ -51,8 +51,9 @@ echo "${BLUE}📦 Building frontend...${NC}"
 rm -rf "$PROJECT_DIR/frontend"
 cp -r "$TEMP_DIR/frontend" "$PROJECT_DIR/frontend"
 cd "$PROJECT_DIR/frontend"
+echo "NEXT_PUBLIC_API_URL=http://localhost:4000" > .env.local
 npm install
-NEXT_PUBLIC_API_URL=http://localhost:4000 npm run build
+npm run build
 
 # Restart frontend via PM2
 echo "${BLUE}🔄 Restarting frontend...${NC}"

@@ -27,7 +27,7 @@ git clone "$REPO_URL" "$TEMP_DIR"
 echo "${BLUE}📦 Building frontend...${NC}"
 cd "$TEMP_DIR/frontend"
 npm install
-npm run build
+NEXT_PUBLIC_API_URL=https://openmindplus.com npm run build
 
 # Deploy frontend
 echo "${BLUE}📂 Deploying frontend...${NC}"

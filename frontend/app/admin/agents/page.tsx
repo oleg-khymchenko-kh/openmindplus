@@ -6,7 +6,6 @@ import {
   ReactFlow,
   Background,
   Controls,
-  MiniMap,
   addEdge,
   useNodesState,
   useEdgesState,
@@ -241,8 +240,6 @@ export default function AgentsPage() {
           fitView
         >
           <Background color="#27272a" gap={20} />
-          <Controls />
-          <MiniMap nodeColor={n => (n.style?.background as string) || '#3b82f6'} maskColor="#09090bcc" />
         </ReactFlow>
       </div>
 

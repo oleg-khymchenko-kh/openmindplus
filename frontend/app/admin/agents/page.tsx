@@ -167,9 +167,9 @@ export default function AgentsPage() {
   }
 
   return (
-    <div className="flex h-screen bg-zinc-950">
+    <div className="flex h-screen bg-zinc-950 overflow-hidden">
       {/* Canvas */}
-      <div className="flex-1 relative">
+      <div className="flex-1 relative overflow-hidden">
         <div className="absolute top-4 left-4 z-10 flex gap-2 items-center">
           <h1 className="text-white font-bold text-base bg-zinc-900 border border-zinc-800 px-4 py-2 rounded-xl">
             🤖 Agents
@@ -204,8 +204,8 @@ export default function AgentsPage() {
         </ReactFlow>
       </div>
 
-      {/* Sidebar */}
-      <div className="w-80 bg-zinc-900 border-l border-zinc-800 flex flex-col">
+      {/* Sidebar — slides in when agent selected */}
+      <div className={`${selected ? 'w-80' : 'w-0'} bg-zinc-900 border-l border-zinc-800 flex flex-col transition-all duration-200 overflow-hidden flex-shrink-0`}>
         {selected ? (
           <div className="p-5 flex flex-col h-full">
             <div className="flex items-start justify-between mb-4">

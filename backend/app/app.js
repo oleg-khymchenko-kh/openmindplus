@@ -21,9 +21,15 @@ await app.register(cookie)
 // Routes
 import authRoutes from './routes/auth.js'
 import healthRoutes from './routes/health.js'
+import teamRoutes from './routes/team.js'
+import projectRoutes from './routes/projects.js'
+import contactRoutes from './routes/contact.js'
 
 await app.register(authRoutes, { prefix: '/api/auth' })
 await app.register(healthRoutes, { prefix: '/api' })
+await app.register(teamRoutes, { prefix: '/api/team' })
+await app.register(projectRoutes, { prefix: '/api/projects' })
+await app.register(contactRoutes, { prefix: '/api/contact' })
 
 // Start server
 const PORT = process.env.PORT || 4000

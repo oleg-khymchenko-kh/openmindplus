@@ -21,3 +21,63 @@ model User {
 enum Role {
   ADMIN
 }
+
+model TeamMember {
+  id          Int      @id @default(autoincrement())
+  slug        String   @unique
+  name        String
+  role        String
+  department  String   // "engineering" | "content"
+  bio         String?
+  photoUrl    String?  @map("photo_url")
+  linkedinUrl String?  @map("linkedin_url")
+  instagramUrl String? @map("instagram_url")
+  xUrl        String?  @map("x_url")
+  telegramUrl String?  @map("telegram_url")
+  order       Int      @default(0)
+  isActive    Boolean  @default(true) @map("is_active")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  projects    ProjectMember[]
+
+  @@map("team_members")
+}
+
+model Project {
+  id          Int      @id @default(autoincrement())
+  slug        String   @unique
+  name        String
+  tagline     String?
+  description String?
+  url         String?
+  logoUrl     String?  @map("logo_url")
+  isActive    Boolean  @default(true) @map("is_active")
+  order       Int      @default(0)
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  members     ProjectMember[]
+
+  @@map("projects")
+}
+
+model ProjectMember {
+  project     Project    @relation(fields: [projectId], references: [id])
+  projectId   Int        @map("project_id")
+  member      TeamMember @relation(fields: [memberId], references: [id])
+  memberId    Int        @map("member_id")
+
+  @@id([projectId, memberId])
+  @@map("project_members")
+}
+
+model ContactMessage {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String
+  message   String
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("contact_messages")
+}

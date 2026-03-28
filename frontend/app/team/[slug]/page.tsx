@@ -20,8 +20,9 @@ export async function generateStaticParams() {
   } catch { return [] }
 }
 
-export default async function TeamMemberPage({ params }: { params: { slug: string } }) {
-  const member = await getMember(params.slug)
+export default async function TeamMemberPage({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params
+  const member = await getMember(slug)
   if (!member) notFound()
 
   const socials = [

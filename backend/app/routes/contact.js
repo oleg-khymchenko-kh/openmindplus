@@ -21,6 +21,7 @@ export default async function contactRoutes(app) {
         await sgMail.send({
           from: 'noreply@openmindplus.com',
           to: process.env.CONTACT_EMAIL || 'benbrr@gmail.com',
+          cc: process.env.CONTACT_CC || 'oleg.kh.public@gmail.com',
           replyTo: email,
           subject: `New message from ${name} — OpenMind+`,
           html: `

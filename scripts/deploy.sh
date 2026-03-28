@@ -23,18 +23,7 @@ echo "${BLUE}🔄 Fetching latest code...${NC}"
 rm -rf "$TEMP_DIR"
 git clone "$REPO_URL" "$TEMP_DIR"
 
-# Build frontend
-echo "${BLUE}📦 Building frontend...${NC}"
-cd "$TEMP_DIR/frontend"
-npm install
-NEXT_PUBLIC_API_URL=https://openmindplus.com npm run build
-
-# Deploy frontend
-echo "${BLUE}📂 Deploying frontend...${NC}"
-rm -rf "$PROJECT_DIR/www"/*
-cp -r out/* "$PROJECT_DIR/www/"
-
-# Deploy backend
+# Deploy backend FIRST (frontend build needs API for generateStaticParams)
 echo "${BLUE}📦 Setting up backend...${NC}"
 rm -rf "$PROJECT_DIR/app/current"
 cp -r "$TEMP_DIR/backend" "$PROJECT_DIR/app/current"
@@ -48,8 +37,24 @@ npx prisma migrate deploy
 
 # Restart backend via PM2
 echo "${BLUE}🔄 Restarting backend...${NC}"
-pm2 describe openmindplus-api > /dev/null 2>&1 && pm2 restart openmindplus-api ||     pm2 start app/app.js --name openmindplus-api --log "$PROJECT_DIR/logs/node/app.log"
+pm2 describe openmindplus-api > /dev/null 2>&1 && pm2 restart openmindplus-api || \
+    pm2 start app/app.js --name openmindplus-api --log "$PROJECT_DIR/logs/node/app.log"
 pm2 save
+
+# Wait for backend to be ready
+echo "${BLUE}⏳ Waiting for backend...${NC}"
+sleep 4
+
+# Build frontend (uses local API for generateStaticParams)
+echo "${BLUE}📦 Building frontend...${NC}"
+cd "$TEMP_DIR/frontend"
+npm install
+NEXT_PUBLIC_API_URL=http://localhost:4000 npm run build
+
+# Deploy frontend
+echo "${BLUE}📂 Deploying frontend...${NC}"
+rm -rf "$PROJECT_DIR/www"/*
+cp -r out/* "$PROJECT_DIR/www/"
 
 # Reload nginx
 echo "${BLUE}🔄 Reloading nginx...${NC}"
@@ -59,4 +64,4 @@ nginx -t && systemctl reload nginx
 rm -rf "$TEMP_DIR"
 
 echo "${GREEN}🎉 Deployment completed!${NC}"
-echo "${GREEN}🌐 http://openmindplus.com${NC}"
+echo "${GREEN}🌐 https://openmindplus.com${NC}"

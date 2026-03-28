@@ -15,7 +15,7 @@ async function sendTelegramMessage(botToken, chatId, text) {
 function requireRole(...roles) {
   return async (request, reply) => {
     try {
-      await request.jwtVerify({ onlyCookie: true })
+      await request.jwtVerify()
       if (!roles.includes(request.user.role)) {
         return reply.status(403).send({ error: 'Forbidden' })
       }

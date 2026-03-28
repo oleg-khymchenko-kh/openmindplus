@@ -12,11 +12,15 @@ await app.register(cors, {
   credentials: true,
 })
 
+await app.register(cookie)
+
 await app.register(jwt, {
   secret: process.env.JWT_SECRET || 'changeme',
+  cookie: {
+    cookieName: 'token',
+    signed: false,
+  },
 })
-
-await app.register(cookie)
 
 // Routes
 import authRoutes from './routes/auth.js'

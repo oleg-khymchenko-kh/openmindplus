@@ -41,7 +41,7 @@ export default async function authRoutes(app) {
   app.get('/me', {
     preHandler: async (request, reply) => {
       try {
-        await request.jwtVerify({ onlyCookie: true })
+        await request.jwtVerify()
       } catch {
         reply.status(401).send({ error: 'Unauthorized' })
       }

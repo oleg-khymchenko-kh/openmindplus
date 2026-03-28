@@ -41,7 +41,7 @@ export default function AdminLogin() {
       <div className="w-full max-w-sm">
         <div className="text-center mb-8">
           <h1 className="text-xl font-bold text-zinc-100 tracking-tight">
-            Open<span className="text-zinc-500">Mind</span>Plus
+            Open<span className="text-zinc-500">Mind</span><span className="text-white">+</span>
           </h1>
           <p className="text-zinc-600 text-sm mt-1">Admin Panel</p>
         </div>

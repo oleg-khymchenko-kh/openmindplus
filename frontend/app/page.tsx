@@ -10,7 +10,7 @@ export default function Home() {
           AI · Engineering · Product
         </div>
         <h1 className="text-5xl sm:text-7xl font-bold tracking-tight text-white mb-6 leading-[1.08]">
-          Open<span className="text-zinc-400">Mind</span>Plus
+          Open<span className="text-zinc-400">Mind</span><span className="text-white">+</span>
         </h1>
         <p className="text-lg sm:text-xl text-zinc-300 max-w-xl mx-auto mb-10 leading-relaxed">
           We find broken systems and build smarter tools to fix them.

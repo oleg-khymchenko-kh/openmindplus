@@ -7,8 +7,8 @@ const geist = Geist({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: {
-    default: "OpenMindPlus",
-    template: "%s · OpenMindPlus",
+    default: "OpenMind+",
+    template: "%s · OpenMind+",
   },
   description: "We find broken systems and build smarter tools to fix them. 12 minds — engineers, researchers, writers, and AI agents — working as one.",
 };

@@ -32,7 +32,7 @@ export default function AdminDashboard() {
         <div className="flex items-center justify-between mb-8">
           <div>
             <h1 className="text-3xl font-bold text-zinc-100">Dashboard</h1>
-            <p className="text-zinc-500">OpenMindPlus Admin Panel</p>
+            <p className="text-zinc-500">OpenMind+ Admin Panel</p>
           </div>
           <button onClick={logout} className="text-sm text-zinc-500 hover:text-zinc-300 border border-zinc-700 px-4 py-2 rounded-lg transition-colors">
             Logout

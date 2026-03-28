@@ -11,11 +11,20 @@ async function sendTelegramMessage(botToken, chatId, text) {
   return res.json()
 }
 
-// Auth middleware
+// Parse token from cookie header directly (bypass fastify cookie parser race)
+function getToken(request) {
+  // Try fastify parsed cookies first
+  if (request.cookies?.token) return request.cookies.token
+  // Fallback: parse raw Cookie header
+  const raw = request.headers?.cookie || ''
+  const match = raw.match(/(?:^|;\s*)token=([^;]+)/)
+  return match ? match[1] : null
+}
+
 function requireRole(...roles) {
   return async (request, reply) => {
     try {
-      const token = request.cookies?.token
+      const token = getToken(request)
       if (!token) throw new Error('No token')
       request.user = request.server.jwt.verify(token)
       if (!roles.includes(request.user.role)) {
@@ -43,7 +52,7 @@ export default async function agentRoutes(app) {
     })
     return agents.map(a => ({
       ...a,
-      botToken: undefined, // never expose token to frontend
+      botToken: undefined,
     }))
   })
 
@@ -104,7 +113,6 @@ export default async function agentRoutes(app) {
     if (!agent) return reply.status(404).send({ error: 'Agent not found' })
     if (!agent.chatId) return reply.status(400).send({ error: 'Agent has no chatId configured' })
 
-    // Log command as PENDING
     const cmd = await prisma.agentCommand.create({
       data: {
         agentId: agent.id,
@@ -114,7 +122,6 @@ export default async function agentRoutes(app) {
       },
     })
 
-    // Send to Telegram
     try {
       const result = await sendTelegramMessage(agent.botToken, agent.chatId, message)
       await prisma.agentCommand.update({

@@ -78,7 +78,7 @@ export default function ContactPage() {
         )}
 
         <p className="text-xs text-zinc-600 mt-8 text-center">
-          Or email us: <a href="mailto:hello@openmindplus.com" className="text-zinc-500 hover:text-zinc-300 transition-colors">hello@openmindplus.com</a>
+          Or reach us through our team's social media profiles.
         </p>
       </div>
     </main>

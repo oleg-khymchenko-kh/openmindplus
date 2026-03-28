@@ -1,7 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  output: "export",
+  // Server mode: supports middleware, dynamic routes, admin auth
 };
 
 export default nextConfig;

@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState, useCallback } from 'react'
+import { useRouter } from 'next/navigation'
 import {
   ReactFlow,
   Background,
@@ -38,8 +39,8 @@ function agentsToFlow(agents: Agent[]): { nodes: Node[]; edges: Edge[] } {
       label: (
         <div className="text-left">
           <div className="font-semibold text-sm">{a.name}</div>
-          {a.botUsername && <div className="text-xs text-gray-400">@{a.botUsername}</div>}
-          {a.project && <div className="text-xs text-blue-400">{a.project.name}</div>}
+          {a.botUsername && <div className="text-xs opacity-60">@{a.botUsername}</div>}
+          {a.project && <div className="text-xs opacity-60">{a.project.name}</div>}
         </div>
       ),
       agent: a,
@@ -50,7 +51,7 @@ function agentsToFlow(agents: Agent[]): { nodes: Node[]; edges: Edge[] } {
       border: 'none',
       borderRadius: 12,
       padding: '10px 14px',
-      minWidth: 150,
+      minWidth: 160,
       opacity: a.isActive ? 1 : 0.5,
     },
   }))
@@ -62,14 +63,16 @@ function agentsToFlow(agents: Agent[]): { nodes: Node[]; edges: Edge[] } {
       source: String(a.parentId),
       target: String(a.id),
       animated: true,
-      style: { stroke: '#94a3b8' },
+      style: { stroke: '#52525b' },
     }))
 
   return { nodes, edges }
 }
 
 export default function AgentsPage() {
+  const router = useRouter()
   const [agents, setAgents] = useState<Agent[]>([])
+  const [loading, setLoading] = useState(true)
   const [nodes, setNodes, onNodesChange] = useNodesState<Node>([])
   const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>([])
   const [selected, setSelected] = useState<Agent | null>(null)
@@ -80,14 +83,22 @@ export default function AgentsPage() {
   const [newAgent, setNewAgent] = useState({ name: '', botToken: '', botUsername: '', chatId: '', description: '' })
 
   const loadAgents = useCallback(async () => {
-    const res = await fetch('/api/agents', { credentials: 'include' })
-    if (!res.ok) return
-    const data: Agent[] = await res.json()
-    setAgents(data)
-    const { nodes, edges } = agentsToFlow(data)
-    setNodes(nodes)
-    setEdges(edges)
-  }, [setNodes, setEdges])
+    try {
+      const res = await fetch('/api/agents', { credentials: 'include' })
+      if (res.status === 401) {
+        router.push('/admin/login')
+        return
+      }
+      if (!res.ok) return
+      const data: Agent[] = await res.json()
+      setAgents(data)
+      const { nodes, edges } = agentsToFlow(data)
+      setNodes(nodes)
+      setEdges(edges)
+    } finally {
+      setLoading(false)
+    }
+  }, [setNodes, setEdges, router])
 
   useEffect(() => { loadAgents() }, [loadAgents])
 
@@ -147,12 +158,20 @@ export default function AgentsPage() {
     }
   }
 
+  if (loading) {
+    return (
+      <div className="h-screen bg-zinc-950 flex items-center justify-center">
+        <p className="text-zinc-500 text-sm animate-pulse">Loading agents...</p>
+      </div>
+    )
+  }
+
   return (
-    <div className="flex h-screen bg-gray-950">
+    <div className="flex h-screen bg-zinc-950">
       {/* Canvas */}
       <div className="flex-1 relative">
-        <div className="absolute top-4 left-4 z-10 flex gap-2">
-          <h1 className="text-white font-bold text-lg bg-gray-900 px-4 py-2 rounded-xl">
+        <div className="absolute top-4 left-4 z-10 flex gap-2 items-center">
+          <h1 className="text-white font-bold text-base bg-zinc-900 border border-zinc-800 px-4 py-2 rounded-xl">
             🤖 Agents
           </h1>
           <button
@@ -160,6 +179,12 @@ export default function AgentsPage() {
             className="bg-blue-600 text-white px-4 py-2 rounded-xl text-sm font-semibold hover:bg-blue-700 transition"
           >
             + Add Agent
+          </button>
+          <button
+            onClick={() => router.push('/admin/dashboard')}
+            className="text-zinc-500 hover:text-zinc-300 text-sm px-3 py-2 transition"
+          >
+            ← Dashboard
           </button>
         </div>
 
@@ -173,37 +198,33 @@ export default function AgentsPage() {
           onNodeDragStop={onNodeDragStop}
           fitView
         >
-          <Background color="#374151" gap={20} />
+          <Background color="#27272a" gap={20} />
           <Controls />
-          <MiniMap nodeColor={n => (n.style?.background as string) || '#3b82f6'} maskColor="#111827cc" />
+          <MiniMap nodeColor={n => (n.style?.background as string) || '#3b82f6'} maskColor="#09090bcc" />
         </ReactFlow>
       </div>
 
       {/* Sidebar */}
-      <div className="w-80 bg-gray-900 border-l border-gray-800 flex flex-col">
+      <div className="w-80 bg-zinc-900 border-l border-zinc-800 flex flex-col">
         {selected ? (
           <div className="p-5 flex flex-col h-full">
             <div className="flex items-start justify-between mb-4">
               <div>
-                <h2 className="text-white font-bold text-lg">{selected.name}</h2>
-                {selected.botUsername && (
-                  <p className="text-gray-400 text-sm">@{selected.botUsername}</p>
-                )}
-                {selected.project && (
-                  <p className="text-blue-400 text-sm">{selected.project.name}</p>
-                )}
+                <h2 className="text-white font-bold">{selected.name}</h2>
+                {selected.botUsername && <p className="text-zinc-500 text-xs mt-0.5">@{selected.botUsername}</p>}
+                {selected.project && <p className="text-blue-400 text-xs mt-0.5">{selected.project.name}</p>}
               </div>
-              <span className={`text-xs px-2 py-1 rounded-full ${selected.isActive ? 'bg-green-900 text-green-400' : 'bg-gray-700 text-gray-400'}`}>
+              <span className={`text-xs px-2 py-1 rounded-full ${selected.isActive ? 'bg-green-950 text-green-400' : 'bg-zinc-800 text-zinc-500'}`}>
                 {selected.isActive ? 'Active' : 'Inactive'}
               </span>
             </div>
 
             {selected.description && (
-              <p className="text-gray-400 text-sm mb-4">{selected.description}</p>
+              <p className="text-zinc-400 text-sm mb-4 leading-relaxed">{selected.description}</p>
             )}
 
             <div className="flex-1">
-              <p className="text-gray-400 text-xs font-semibold uppercase tracking-wider mb-2">Send Command</p>
+              <p className="text-zinc-500 text-xs font-semibold uppercase tracking-wider mb-3">Send Command</p>
               {selected.chatId ? (
                 <>
                   <textarea
@@ -211,37 +232,34 @@ export default function AgentsPage() {
                     onChange={e => setMessage(e.target.value)}
                     placeholder="Type a message..."
                     rows={4}
-                    className="w-full bg-gray-800 text-white rounded-lg px-3 py-2 text-sm resize-none border border-gray-700 focus:outline-none focus:border-blue-500 mb-2"
+                    className="w-full bg-zinc-800 text-zinc-100 rounded-lg px-3 py-2 text-sm resize-none border border-zinc-700 focus:outline-none focus:border-zinc-500 mb-2 placeholder-zinc-600"
                   />
                   <button
                     onClick={sendMessage}
                     disabled={sending || !message.trim()}
-                    className="w-full bg-blue-600 text-white py-2 rounded-lg text-sm font-semibold hover:bg-blue-700 disabled:opacity-50 transition"
+                    className="w-full bg-zinc-100 text-zinc-900 py-2 rounded-lg text-sm font-semibold hover:bg-white disabled:opacity-40 transition"
                   >
                     {sending ? 'Sending...' : '➤ Send'}
                   </button>
-                  {sendResult && (
-                    <p className="text-sm mt-2 text-center">{sendResult}</p>
-                  )}
+                  {sendResult && <p className="text-sm mt-2 text-center text-zinc-300">{sendResult}</p>}
                 </>
               ) : (
-                <p className="text-yellow-500 text-sm">⚠️ No Chat ID configured</p>
+                <p className="text-amber-500 text-sm border border-amber-900 bg-amber-950/30 rounded-lg px-3 py-2">
+                  ⚠️ No Chat ID configured
+                </p>
               )}
             </div>
 
-            <button
-              onClick={() => setSelected(null)}
-              className="mt-4 text-gray-500 text-sm hover:text-gray-300 transition"
-            >
+            <button onClick={() => setSelected(null)} className="mt-4 text-zinc-600 text-sm hover:text-zinc-400 transition">
               ← Deselect
             </button>
           </div>
         ) : (
           <div className="p-5 flex-1 flex flex-col items-center justify-center text-center">
             <p className="text-4xl mb-3">🤖</p>
-            <p className="text-gray-400">Click on an agent to send a command</p>
+            <p className="text-zinc-500 text-sm">Click on an agent to send a command</p>
             {agents.length === 0 && (
-              <p className="text-gray-600 text-sm mt-4">No agents yet. Add your first one!</p>
+              <p className="text-zinc-700 text-xs mt-3">No agents yet. Add your first one!</p>
             )}
           </div>
         )}
@@ -249,53 +267,31 @@ export default function AgentsPage() {
 
       {/* Add Agent Modal */}
       {showAddForm && (
-        <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50">
-          <div className="bg-gray-900 rounded-2xl p-6 w-full max-w-md border border-gray-700">
+        <div className="fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4">
+          <div className="bg-zinc-900 rounded-2xl p-6 w-full max-w-md border border-zinc-700">
             <h2 className="text-white font-bold text-lg mb-4">Add Agent</h2>
             <div className="space-y-3">
-              <input
-                placeholder="Name *"
-                value={newAgent.name}
-                onChange={e => setNewAgent(p => ({ ...p, name: e.target.value }))}
-                className="w-full bg-gray-800 text-white rounded-lg px-3 py-2 text-sm border border-gray-700 focus:outline-none focus:border-blue-500"
-              />
-              <input
-                placeholder="Description"
-                value={newAgent.description}
-                onChange={e => setNewAgent(p => ({ ...p, description: e.target.value }))}
-                className="w-full bg-gray-800 text-white rounded-lg px-3 py-2 text-sm border border-gray-700 focus:outline-none focus:border-blue-500"
-              />
-              <input
-                placeholder="Bot Token * (from @BotFather)"
-                value={newAgent.botToken}
-                onChange={e => setNewAgent(p => ({ ...p, botToken: e.target.value }))}
-                className="w-full bg-gray-800 text-white rounded-lg px-3 py-2 text-sm border border-gray-700 focus:outline-none focus:border-blue-500"
-              />
-              <input
-                placeholder="Bot Username (@mybot)"
-                value={newAgent.botUsername}
-                onChange={e => setNewAgent(p => ({ ...p, botUsername: e.target.value }))}
-                className="w-full bg-gray-800 text-white rounded-lg px-3 py-2 text-sm border border-gray-700 focus:outline-none focus:border-blue-500"
-              />
-              <input
-                placeholder="Chat ID (to send commands to)"
-                value={newAgent.chatId}
-                onChange={e => setNewAgent(p => ({ ...p, chatId: e.target.value }))}
-                className="w-full bg-gray-800 text-white rounded-lg px-3 py-2 text-sm border border-gray-700 focus:outline-none focus:border-blue-500"
-              />
+              {[
+                { placeholder: 'Name *', key: 'name' },
+                { placeholder: 'Description', key: 'description' },
+                { placeholder: 'Bot Token * (from @BotFather)', key: 'botToken' },
+                { placeholder: 'Bot Username (@mybot)', key: 'botUsername' },
+                { placeholder: 'Chat ID', key: 'chatId' },
+              ].map(f => (
+                <input key={f.key} placeholder={f.placeholder}
+                  value={newAgent[f.key as keyof typeof newAgent]}
+                  onChange={e => setNewAgent(p => ({ ...p, [f.key]: e.target.value }))}
+                  className="w-full bg-zinc-800 text-white rounded-lg px-3 py-2 text-sm border border-zinc-700 focus:outline-none focus:border-zinc-500 placeholder-zinc-600"
+                />
+              ))}
             </div>
             <div className="flex gap-3 mt-5">
-              <button
-                onClick={addAgent}
-                disabled={!newAgent.name || !newAgent.botToken}
-                className="flex-1 bg-blue-600 text-white py-2 rounded-lg text-sm font-semibold hover:bg-blue-700 disabled:opacity-50 transition"
-              >
+              <button onClick={addAgent} disabled={!newAgent.name || !newAgent.botToken}
+                className="flex-1 bg-zinc-100 text-zinc-900 py-2 rounded-lg text-sm font-semibold hover:bg-white disabled:opacity-40 transition">
                 Add Agent
               </button>
-              <button
-                onClick={() => setShowAddForm(false)}
-                className="flex-1 bg-gray-700 text-white py-2 rounded-lg text-sm font-semibold hover:bg-gray-600 transition"
-              >
+              <button onClick={() => setShowAddForm(false)}
+                className="flex-1 bg-zinc-800 text-zinc-300 py-2 rounded-lg text-sm font-semibold hover:bg-zinc-700 transition">
                 Cancel
               </button>
             </div>

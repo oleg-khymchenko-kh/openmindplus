@@ -10,12 +10,14 @@ PROJECT_DIR="/home/openmindplus.com"
 BACKUP_DIR="$PROJECT_DIR/backups"
 REPO_URL="git@github-openmindplus:oleg-khymchenko-kh/openmindplus.git"
 TEMP_DIR="/tmp/openmindplus-deploy"
+FRONTEND_DIR="$PROJECT_DIR/frontend"
 
-# Backup
-if [ -d "$PROJECT_DIR/www" ] && [ "$(ls -A $PROJECT_DIR/www 2>/dev/null)" ]; then
+# Backup frontend
+if [ -d "$FRONTEND_DIR/.next" ]; then
     BACKUP_NAME="backup_$(date +%Y%m%d_%H%M%S)"
     echo "${YELLOW}📦 Backup: $BACKUP_NAME${NC}"
-    cp -r "$PROJECT_DIR/www" "$BACKUP_DIR/$BACKUP_NAME"
+    mkdir -p "$BACKUP_DIR/$BACKUP_NAME"
+    cp -r "$FRONTEND_DIR/.next" "$BACKUP_DIR/$BACKUP_NAME/.next" 2>/dev/null || true
 fi
 
 # Clone
@@ -23,7 +25,7 @@ echo "${BLUE}🔄 Fetching latest code...${NC}"
 rm -rf "$TEMP_DIR"
 git clone "$REPO_URL" "$TEMP_DIR"
 
-# Deploy backend FIRST (frontend build needs API for generateStaticParams)
+# Deploy backend FIRST
 echo "${BLUE}📦 Setting up backend...${NC}"
 rm -rf "$PROJECT_DIR/app/current"
 cp -r "$TEMP_DIR/backend" "$PROJECT_DIR/app/current"
@@ -41,20 +43,24 @@ pm2 describe openmindplus-api > /dev/null 2>&1 && pm2 restart openmindplus-api |
     pm2 start app/app.js --name openmindplus-api --log "$PROJECT_DIR/logs/node/app.log"
 pm2 save
 
-# Wait for backend to be ready
+# Wait for backend
 echo "${BLUE}⏳ Waiting for backend...${NC}"
 sleep 4
 
-# Build frontend (uses local API for generateStaticParams)
+# Build frontend (Next.js server mode)
 echo "${BLUE}📦 Building frontend...${NC}"
-cd "$TEMP_DIR/frontend"
+mkdir -p "$FRONTEND_DIR"
+cp -r "$TEMP_DIR/frontend/." "$FRONTEND_DIR/"
+cd "$FRONTEND_DIR"
+cp "$PROJECT_DIR/app/.env.frontend" .env.local 2>/dev/null || true
 npm install
 NEXT_PUBLIC_API_URL=http://localhost:4000 npm run build
 
-# Deploy frontend
-echo "${BLUE}📂 Deploying frontend...${NC}"
-rm -rf "$PROJECT_DIR/www"/*
-cp -r out/* "$PROJECT_DIR/www/"
+# Restart frontend via PM2
+echo "${BLUE}🔄 Restarting frontend...${NC}"
+pm2 describe openmindplus-frontend > /dev/null 2>&1 && pm2 restart openmindplus-frontend || \
+    pm2 start npm --name openmindplus-frontend -- start -- -p 3000
+pm2 save
 
 # Reload nginx
 echo "${BLUE}🔄 Reloading nginx...${NC}"

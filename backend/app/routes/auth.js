@@ -34,7 +34,7 @@ export default async function authRoutes(app) {
 
   // POST /api/auth/logout
   app.post('/logout', async (request, reply) => {
-    reply.clearCookie('token')
+    reply.clearCookie('token', { path: '/' })
     return { ok: true }
   })
 

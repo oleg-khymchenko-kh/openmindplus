@@ -10,14 +10,13 @@ PROJECT_DIR="/home/openmindplus.com"
 BACKUP_DIR="$PROJECT_DIR/backups"
 REPO_URL="git@github-openmindplus:oleg-khymchenko-kh/openmindplus.git"
 TEMP_DIR="/tmp/openmindplus-deploy"
-FRONTEND_DIR="$PROJECT_DIR/frontend"
 
-# Backup frontend
-if [ -d "$FRONTEND_DIR/.next" ]; then
+# Backup
+if [ -d "$PROJECT_DIR/frontend/.next" ]; then
     BACKUP_NAME="backup_$(date +%Y%m%d_%H%M%S)"
     echo "${YELLOW}📦 Backup: $BACKUP_NAME${NC}"
     mkdir -p "$BACKUP_DIR/$BACKUP_NAME"
-    cp -r "$FRONTEND_DIR/.next" "$BACKUP_DIR/$BACKUP_NAME/.next" 2>/dev/null || true
+    cp -r "$PROJECT_DIR/frontend/.next" "$BACKUP_DIR/$BACKUP_NAME/.next" 2>/dev/null || true
 fi
 
 # Clone
@@ -47,19 +46,19 @@ pm2 save
 echo "${BLUE}⏳ Waiting for backend...${NC}"
 sleep 4
 
-# Build frontend (Next.js server mode)
+# Build frontend
 echo "${BLUE}📦 Building frontend...${NC}"
-mkdir -p "$FRONTEND_DIR"
-cp -r "$TEMP_DIR/frontend/." "$FRONTEND_DIR/"
-cd "$FRONTEND_DIR"
-cp "$PROJECT_DIR/app/.env.frontend" .env.local 2>/dev/null || true
+rm -rf "$PROJECT_DIR/frontend"
+cp -r "$TEMP_DIR/frontend" "$PROJECT_DIR/frontend"
+cd "$PROJECT_DIR/frontend"
 npm install
 NEXT_PUBLIC_API_URL=http://localhost:4000 npm run build
 
 # Restart frontend via PM2
 echo "${BLUE}🔄 Restarting frontend...${NC}"
-pm2 describe openmindplus-frontend > /dev/null 2>&1 && pm2 restart openmindplus-frontend || \
-    pm2 start npm --name openmindplus-frontend -- start -- -p 3000
+pm2 describe openmindplus-frontend > /dev/null 2>&1 && \
+    pm2 restart openmindplus-frontend || \
+    pm2 start npm --name openmindplus-frontend --cwd "$PROJECT_DIR/frontend" -- run start -- -p 3000
 pm2 save
 
 # Reload nginx

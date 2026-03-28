@@ -41,7 +41,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
           </div>
           {project.url && (
             <a href={project.url} target="_blank" rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-xs font-semibold text-zinc-400 border border-zinc-700 rounded-lg px-4 py-2.5 hover:border-zinc-500 hover:text-zinc-200 transition-colors whitespace-nowrap self-start">
+              className="inline-flex items-center gap-2 text-sm font-semibold text-zinc-900 bg-zinc-100 rounded-lg px-5 py-2.5 hover:bg-white transition-colors whitespace-nowrap self-start">
               Visit site ↗
             </a>
           )}

@@ -6,8 +6,11 @@ import PublicShell from "./components/PublicShell";
 const geist = Geist({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "OpenMindPlus",
-  description: "We find broken systems and build smarter tools to fix them.",
+  title: {
+    default: "OpenMindPlus",
+    template: "%s · OpenMindPlus",
+  },
+  description: "We find broken systems and build smarter tools to fix them. 12 minds — engineers, researchers, writers, and AI agents — working as one.",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

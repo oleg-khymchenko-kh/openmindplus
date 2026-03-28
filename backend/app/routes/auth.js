@@ -22,6 +22,7 @@ export default async function authRoutes(app) {
     )
 
     reply.setCookie('token', token, {
+      path: '/',
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',

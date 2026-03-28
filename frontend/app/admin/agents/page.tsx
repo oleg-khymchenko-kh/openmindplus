@@ -89,6 +89,7 @@ export default function AgentsPage() {
   const [nodes, setNodes, onNodesChange] = useNodesState<Node>([])
   const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>([])
   const [selected, setSelected] = useState<Agent | null>(null)
+  const [hovered, setHovered] = useState<{ agent: Agent; x: number; y: number } | null>(null)
   const [message, setMessage] = useState('')
   const [sending, setSending] = useState(false)
   const [sendResult, setSendResult] = useState<string | null>(null)
@@ -122,8 +123,24 @@ export default function AgentsPage() {
 
   const onNodeClick = useCallback((_: React.MouseEvent, node: Node) => {
     setSelected((node.data as { agent: Agent }).agent)
+    setHovered(null)
     setSendResult(null)
     setMessage('')
+  }, [])
+
+  const onNodeMouseEnter = useCallback((e: React.MouseEvent, node: Node) => {
+    const agent = (node.data as { agent: Agent }).agent
+    if (agent.description) {
+      setHovered({ agent, x: e.clientX, y: e.clientY })
+    }
+  }, [])
+
+  const onNodeMouseMove = useCallback((e: React.MouseEvent) => {
+    setHovered(prev => prev ? { ...prev, x: e.clientX, y: e.clientY } : null)
+  }, [])
+
+  const onNodeMouseLeave = useCallback(() => {
+    setHovered(null)
   }, [])
 
   const onNodeDragStop = useCallback(async (_: React.MouseEvent, node: Node) => {
@@ -208,6 +225,9 @@ export default function AgentsPage() {
           onEdgesChange={onEdgesChange}
           onConnect={onConnect}
           onNodeClick={onNodeClick}
+          onNodeMouseEnter={onNodeMouseEnter}
+          onNodeMouseMove={onNodeMouseMove}
+          onNodeMouseLeave={onNodeMouseLeave}
           onNodeDragStop={onNodeDragStop}
           fitView
         >
@@ -216,6 +236,19 @@ export default function AgentsPage() {
           <MiniMap nodeColor={n => (n.style?.background as string) || '#3b82f6'} maskColor="#09090bcc" />
         </ReactFlow>
       </div>
+
+      {/* Tooltip on hover */}
+      {hovered && hovered.agent.description && (
+        <div
+          className="fixed z-50 pointer-events-none"
+          style={{ left: hovered.x + 16, top: hovered.y - 8 }}
+        >
+          <div className="bg-zinc-800 border border-zinc-600 rounded-xl px-4 py-3 shadow-2xl max-w-xs">
+            <p className="text-white text-sm font-semibold mb-1">{hovered.agent.name}</p>
+            <p className="text-zinc-300 text-xs leading-relaxed">{hovered.agent.description}</p>
+          </div>
+        </div>
+      )}
 
       {/* Sidebar — slides in when agent selected */}
       <div className={`${selected ? 'w-80' : 'w-0'} bg-zinc-900 border-l border-zinc-800 flex flex-col transition-all duration-200 overflow-hidden flex-shrink-0`}>

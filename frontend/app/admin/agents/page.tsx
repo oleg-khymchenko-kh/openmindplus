@@ -250,9 +250,22 @@ export default function AgentsPage() {
               )}
             </div>
 
-            <button onClick={() => setSelected(null)} className="mt-4 text-zinc-600 text-sm hover:text-zinc-400 transition">
-              ← Deselect
-            </button>
+            <div className="mt-4 flex gap-2">
+              <button onClick={() => setSelected(null)} className="flex-1 text-zinc-500 text-sm hover:text-zinc-300 border border-zinc-800 rounded-lg py-2 transition">
+                ← Back
+              </button>
+              <button
+                onClick={async () => {
+                  if (!confirm(`Delete "${selected.name}"?`)) return
+                  await fetch(`/api/agents/${selected.id}`, { method: 'DELETE', credentials: 'include' })
+                  setSelected(null)
+                  loadAgents()
+                }}
+                className="flex-1 text-red-400 text-sm hover:text-red-300 border border-red-900 hover:border-red-700 rounded-lg py-2 transition"
+              >
+                🗑 Delete
+              </button>
+            </div>
           </div>
         ) : (
           <div className="p-5 flex-1 flex flex-col items-center justify-center text-center">

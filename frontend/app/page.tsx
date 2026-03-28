@@ -6,13 +6,13 @@ export default function Home() {
 
       {/* Hero */}
       <section className="min-h-[90vh] flex flex-col items-center justify-center text-center px-5 py-24">
-        <div className="inline-flex items-center gap-2 text-xs font-medium text-zinc-500 border border-zinc-800 rounded-full px-4 py-1.5 mb-8 tracking-widest uppercase">
+        <div className="inline-flex items-center gap-2 text-xs font-medium text-zinc-400 border border-zinc-700 rounded-full px-4 py-1.5 mb-8 tracking-widest uppercase">
           AI · Engineering · Product
         </div>
-        <h1 className="text-5xl sm:text-7xl font-bold tracking-tight text-zinc-100 mb-6 leading-[1.08]">
-          Open<span className="text-zinc-500">Mind</span>Plus
+        <h1 className="text-5xl sm:text-7xl font-bold tracking-tight text-white mb-6 leading-[1.08]">
+          Open<span className="text-zinc-400">Mind</span>Plus
         </h1>
-        <p className="text-lg sm:text-xl text-zinc-400 max-w-xl mx-auto mb-10 leading-relaxed">
+        <p className="text-lg sm:text-xl text-zinc-300 max-w-xl mx-auto mb-10 leading-relaxed">
           We find broken systems and build smarter tools to fix them.
           12 minds — engineers, researchers, writers, and AI agents — working across borders as one team.
         </p>
@@ -81,8 +81,8 @@ export default function Home() {
       {/* CTA */}
       <section className="py-24 px-5 text-center">
         <div className="max-w-lg mx-auto">
-          <h2 className="text-3xl sm:text-4xl font-bold text-zinc-100 mb-4">Believe in what we're building?</h2>
-          <p className="text-zinc-400 mb-8">We'd love to hear from you.</p>
+          <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">Believe in what we're building?</h2>
+          <p className="text-zinc-300 text-lg mb-8">We'd love to hear from you.</p>
           <Link href="/contact"
             className="inline-block bg-zinc-100 text-zinc-900 px-8 py-3 rounded-lg font-semibold text-sm hover:bg-white transition-colors">
             Get in Touch

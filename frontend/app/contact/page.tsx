@@ -28,9 +28,9 @@ export default function ContactPage() {
   return (
     <main className="min-h-screen bg-zinc-950 py-20 px-5">
       <div className="max-w-lg mx-auto">
-        <p className="text-xs font-semibold text-zinc-500 uppercase tracking-widest mb-4">Contact</p>
-        <h1 className="text-4xl sm:text-5xl font-bold text-zinc-100 mb-4 tracking-tight">Get in touch</h1>
-        <p className="text-zinc-400 mb-12 text-base">
+        <p className="text-xs font-semibold text-zinc-400 uppercase tracking-widest mb-4">Contact</p>
+        <h1 className="text-4xl sm:text-5xl font-bold text-white mb-4 tracking-tight">Get in touch</h1>
+        <p className="text-zinc-300 mb-12 text-lg">
           Have a question or want to work with us? Drop us a message or find us on social media.
         </p>
 

@@ -16,10 +16,10 @@ export default function PublicShell({ children }: { children: React.ReactNode })
           <Link href="/" className="font-semibold text-zinc-100 tracking-tight">
             Open<span className="text-zinc-400">Mind</span>Plus
           </Link>
-          <div className="flex items-center gap-6 text-sm text-zinc-400">
-            <Link href="/team" className="hover:text-zinc-100 transition-colors">Team</Link>
-            <Link href="/projects" className="hover:text-zinc-100 transition-colors">Projects</Link>
-            <Link href="/contact" className="hover:text-zinc-100 transition-colors">Contact</Link>
+          <div className="flex items-center gap-6 text-sm text-zinc-300">
+            <Link href="/team" className="hover:text-white transition-colors">Team</Link>
+            <Link href="/projects" className="hover:text-white transition-colors">Projects</Link>
+            <Link href="/contact" className="hover:text-white transition-colors">Contact</Link>
           </div>
         </nav>
       </header>
@@ -28,7 +28,7 @@ export default function PublicShell({ children }: { children: React.ReactNode })
         {children}
       </div>
 
-      <footer className="border-t border-zinc-800/60 py-8 px-5 text-center text-xs text-zinc-600">
+      <footer className="border-t border-zinc-700 py-8 px-5 text-center text-sm text-zinc-400">
         © {new Date().getFullYear()} OpenMindPlus · Built with ❤️ by our team
       </footer>
     </>

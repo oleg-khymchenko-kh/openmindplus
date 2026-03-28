@@ -39,8 +39,21 @@ function agentsToFlow(agents: Agent[]): { nodes: Node[]; edges: Edge[] } {
       label: (
         <div className="text-left">
           <div className="font-semibold text-sm">{a.name}</div>
-          {a.botUsername && <div className="text-xs opacity-60">@{a.botUsername}</div>}
-          {a.project && <div className="text-xs opacity-60">{a.project.name}</div>}
+          {a.project && <div className="text-xs opacity-60 mt-0.5">{a.project.name}</div>}
+          {a.botUsername && (
+            <a
+              href={`https://t.me/${a.botUsername}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={e => e.stopPropagation()}
+              style={{ display: 'inline-flex', alignItems: 'center', gap: '4px', marginTop: '6px', background: 'rgba(255,255,255,0.15)', borderRadius: '6px', padding: '2px 8px', fontSize: '11px', color: '#fff', textDecoration: 'none' }}
+            >
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L7.26 13.89l-2.956-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.884.669z"/>
+              </svg>
+              Telegram
+            </a>
+          )}
         </div>
       ),
       agent: a,

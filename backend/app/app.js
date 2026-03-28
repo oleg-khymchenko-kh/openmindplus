@@ -16,10 +16,17 @@ await app.register(cookie)
 
 await app.register(jwt, {
   secret: process.env.JWT_SECRET || 'changeme',
-  cookie: {
-    cookieName: 'token',
-    signed: false,
-  },
+})
+
+// Decorator: verify JWT from cookie or Authorization header
+app.decorate('authenticate', async (request, reply) => {
+  try {
+    const token = request.cookies?.token
+    if (!token) throw new Error('No token')
+    request.user = app.jwt.verify(token)
+  } catch {
+    reply.status(401).send({ error: 'Unauthorized' })
+  }
 })
 
 // Routes

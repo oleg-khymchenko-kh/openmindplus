@@ -15,11 +15,14 @@ async function sendTelegramMessage(botToken, chatId, text) {
 function requireRole(...roles) {
   return async (request, reply) => {
     try {
-      await request.jwtVerify()
+      const token = request.cookies?.token
+      if (!token) throw new Error('No token')
+      request.user = request.server.jwt.verify(token)
       if (!roles.includes(request.user.role)) {
         return reply.status(403).send({ error: 'Forbidden' })
       }
-    } catch {
+    } catch (e) {
+      if (e.message === 'Forbidden') return reply.status(403).send({ error: 'Forbidden' })
       return reply.status(401).send({ error: 'Unauthorized' })
     }
   }

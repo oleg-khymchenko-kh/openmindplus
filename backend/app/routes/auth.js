@@ -41,7 +41,9 @@ export default async function authRoutes(app) {
   app.get('/me', {
     preHandler: async (request, reply) => {
       try {
-        await request.jwtVerify()
+        const token = request.cookies?.token
+        if (!token) throw new Error('No token')
+        request.user = request.server.jwt.verify(token)
       } catch {
         reply.status(401).send({ error: 'Unauthorized' })
       }

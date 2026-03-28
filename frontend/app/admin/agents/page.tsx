@@ -70,8 +70,8 @@ function agentsToFlow(agents: Agent[]): { nodes: Node[]; edges: Edge[] } {
 
 export default function AgentsPage() {
   const [agents, setAgents] = useState<Agent[]>([])
-  const [nodes, setNodes, onNodesChange] = useNodesState([])
-  const [edges, setEdges, onEdgesChange] = useEdgesState([])
+  const [nodes, setNodes, onNodesChange] = useNodesState<Node>([])
+  const [edges, setEdges, onEdgesChange] = useEdgesState<Edge>([])
   const [selected, setSelected] = useState<Agent | null>(null)
   const [message, setMessage] = useState('')
   const [sending, setSending] = useState(false)

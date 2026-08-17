@@ -57,6 +57,31 @@ async function main() {
     },
   })
 
+  // Other projects (no team links yet)
+  const projects = [
+    {
+      slug: 'argo-aero',
+      name: 'Argo Aero',
+      tagline: 'Gyrocopters in London — sales, training, maintenance.',
+      description: `Argo Aero is the official UK dealer for Polish-built gyroplanes, operating out of London. The company sells the ARGON 915 iS and ARGON GTL, runs pilot training and test flights, and provides maintenance and repair. Gyroplanes combine helicopter-like flight with mechanical simplicity, which makes them compact, highly reliable and far cheaper to own and run than a helicopter — suited to recreational flying, aerial photography and agricultural monitoring. Argo Aero holds CAA A8-21 Factory Approval, with full BCAR-T certification in progress.`,
+      url: 'https://argoaero.co.uk',
+      order: 2,
+    },
+    {
+      slug: 'autoe',
+      name: 'AutoE',
+      tagline: 'The Joy of Charging Well.',
+      description: `AutoE builds and operates EV charging infrastructure across the UK. The company designs and manufactures its own charge point controllers and stations (Type 1, Type 2, CCS Combo and CHAdeMO), installs them for homes, businesses and car parks, and runs a public charging network. Drivers use the AutoE app to find a free station nearby, start and stop a session from their phone and top up their balance; station owners get a web dashboard to set their own tariffs, add idle fees and track income. Existing charger owners can join the network to have their hardware upgraded and monetised, backed by 24/7 support.`,
+      url: 'https://autoe.co.uk',
+      order: 3,
+    },
+  ]
+
+  for (const p of projects) {
+    await prisma.project.upsert({ where: { slug: p.slug }, update: {}, create: p })
+  }
+  console.log(`${projects.length} additional projects seeded`)
+
   // Link all members to getosh project
   const allMembers = await prisma.teamMember.findMany()
   for (const member of allMembers) {

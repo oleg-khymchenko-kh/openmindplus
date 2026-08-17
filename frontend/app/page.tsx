@@ -63,7 +63,7 @@ export default function Home() {
         <div className="max-w-5xl mx-auto grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-10 text-center">
           {[
             { value: '12+', label: 'Team members' },
-            { value: '1',   label: 'Live project' },
+            { value: '3',   label: 'Live projects' },
             { value: '🌍',  label: 'Global reach' },
             { value: 'AI',  label: 'Powered' },
           ].map(s => (

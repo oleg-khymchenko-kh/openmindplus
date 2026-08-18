@@ -92,6 +92,45 @@ async function main() {
     })
   }
   console.log(`Project getosh seeded, linked to ${allMembers.length} members`)
+
+  // Team assignments for the other projects. A member can be on several projects.
+  const assignments = {
+    'argo-aero': [
+      'natalia-petrenko',   // Frontend Engineer
+      'viktoria-lysenko',   // Backend Engineer
+      'alina-moroz',        // AI Integration Engineer — Telegram enquiry bot
+      'olena-kravchenko',   // DevOps Engineer
+      'sofia-kovalenko',    // Content Writer
+      'maria-kryvoruchko',  // Editorial Lead
+    ],
+    autoe: [
+      'iryna-marchenko',    // Systems Architect
+      'viktoria-lysenko',   // Backend Engineer
+      'natalia-petrenko',   // Frontend Engineer
+      'polina-savchenko',   // Data Engineer — charge point telemetry
+      'olena-kravchenko',   // DevOps Engineer
+      'yulia-tkachenko',    // AI Product Engineer
+    ],
+  }
+
+  const bySlug = new Map(allMembers.map(m => [m.slug, m]))
+  for (const [projectSlug, memberSlugs] of Object.entries(assignments)) {
+    const target = await prisma.project.findUnique({ where: { slug: projectSlug } })
+    if (!target) continue
+    for (const memberSlug of memberSlugs) {
+      const member = bySlug.get(memberSlug)
+      if (!member) {
+        console.warn(`  ! unknown member slug: ${memberSlug}`)
+        continue
+      }
+      await prisma.projectMember.upsert({
+        where: { projectId_memberId: { projectId: target.id, memberId: member.id } },
+        update: {},
+        create: { projectId: target.id, memberId: member.id },
+      })
+    }
+    console.log(`Project ${projectSlug} linked to ${memberSlugs.length} members`)
+  }
 }
 
 main()

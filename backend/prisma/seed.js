@@ -46,10 +46,11 @@ async function main() {
   // Project: getosh.today
   const project = await prisma.project.upsert({
     where: { slug: 'getosh' },
-    update: {},
+    update: { logoUrl: '/uploads/projects/getosh.svg' },
     create: {
       slug: 'getosh',
       name: 'GetOSH',
+      logoUrl: '/uploads/projects/getosh.svg',
       tagline: 'Fight your parking fine. In minutes.',
       description: `GetOSH is an AI-powered platform that helps UK drivers understand, challenge, and manage parking fines. Send a photo of your ticket via WhatsApp or Telegram — GetOSH analyses it in seconds, identifies the legal grounds, deadlines, and generates a professional appeal letter ready to send. No forms. No accounts. No legal jargon. Just clarity, fast.`,
       url: 'https://getosh.today',
@@ -62,6 +63,7 @@ async function main() {
     {
       slug: 'argo-aero',
       name: 'Argo Aero',
+      logoUrl: '/uploads/projects/argo-aero.png',
       tagline: 'Gyrocopters in London — sales, training, maintenance.',
       description: `Argo Aero is the official UK dealer for Polish-built gyroplanes, operating out of London. The company sells the ARGON 915 iS and ARGON GTL, runs pilot training and test flights, and provides maintenance and repair. Gyroplanes combine helicopter-like flight with mechanical simplicity, which makes them compact, highly reliable and far cheaper to own and run than a helicopter — suited to recreational flying, aerial photography and agricultural monitoring. Argo Aero holds CAA A8-21 Factory Approval, with full BCAR-T certification in progress.`,
       url: 'https://argoaero.co.uk',
@@ -70,6 +72,7 @@ async function main() {
     {
       slug: 'autoe',
       name: 'AutoE',
+      logoUrl: '/uploads/projects/autoe.png',
       tagline: 'The Joy of Charging Well.',
       description: `AutoE builds and operates EV charging infrastructure across the UK. The company designs and manufactures its own charge point controllers and stations (Type 1, Type 2, CCS Combo and CHAdeMO), installs them for homes, businesses and car parks, and runs a public charging network. Drivers use the AutoE app to find a free station nearby, start and stop a session from their phone and top up their balance; station owners get a web dashboard to set their own tariffs, add idle fees and track income. Existing charger owners can join the network to have their hardware upgraded and monetised, backed by 24/7 support.`,
       url: 'https://autoe.co.uk',
@@ -78,7 +81,11 @@ async function main() {
   ]
 
   for (const p of projects) {
-    await prisma.project.upsert({ where: { slug: p.slug }, update: {}, create: p })
+    await prisma.project.upsert({
+      where: { slug: p.slug },
+      update: { logoUrl: p.logoUrl },
+      create: p,
+    })
   }
   console.log(`${projects.length} additional projects seeded`)
 
@@ -102,6 +109,7 @@ async function main() {
       'olena-kravchenko',   // DevOps Engineer
       'sofia-kovalenko',    // Content Writer
       'maria-kryvoruchko',  // Editorial Lead
+      'kateryna-shevchenko',// Correspondent — aviation press materials
     ],
     autoe: [
       'iryna-marchenko',    // Systems Architect
@@ -110,6 +118,8 @@ async function main() {
       'polina-savchenko',   // Data Engineer — charge point telemetry
       'olena-kravchenko',   // DevOps Engineer
       'yulia-tkachenko',    // AI Product Engineer
+      'anastasia-bondar',   // ML Research Engineer — charging network models
+      'darya-melnyk',       // Staff Journalist — the site runs a blog
     ],
   }
 

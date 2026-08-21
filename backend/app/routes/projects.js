@@ -8,6 +8,7 @@ export default async function projectRoutes(app) {
       orderBy: { order: 'asc' },
       select: {
         slug: true, name: true, tagline: true, url: true, logoUrl: true,
+        description: true, createdAt: true,
       },
     })
   })

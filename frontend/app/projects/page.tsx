@@ -8,6 +8,7 @@ interface Project {
   name: string
   tagline: string | null
   url: string | null
+  logoUrl: string | null
 }
 
 async function getProjects(): Promise<Project[]> {
@@ -34,6 +35,11 @@ export default async function ProjectsPage() {
           {projects.map(p => (
             <Link key={p.slug} href={`/projects/${p.slug}`}
               className="group border border-zinc-700 rounded-2xl p-6 sm:p-8 hover:border-zinc-500 hover:bg-zinc-900/60 transition-all">
+              {p.logoUrl && (
+                <span className="inline-flex items-center justify-center w-20 h-12 rounded-lg bg-zinc-100 p-2 mb-5">
+                  <img src={p.logoUrl} alt="" className="max-w-full max-h-full object-contain" />
+                </span>
+              )}
               <div className="flex items-start justify-between gap-4 mb-3">
                 <h2 className="text-2xl font-bold text-white transition-colors">{p.name}</h2>
                 <span className="text-zinc-400 group-hover:text-zinc-200 transition-colors mt-0.5 text-lg">→</span>

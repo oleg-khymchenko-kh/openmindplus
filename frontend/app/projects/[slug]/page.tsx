@@ -32,6 +32,12 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
           ← Back to Projects
         </Link>
 
+        {project.logoUrl && (
+          <span className="inline-flex items-center justify-center w-24 h-14 rounded-lg bg-zinc-100 p-2.5 mb-6">
+            <img src={project.logoUrl} alt="" className="max-w-full max-h-full object-contain" />
+          </span>
+        )}
+
         <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 mb-6">
           <div>
             <h1 className="text-4xl sm:text-5xl font-bold text-zinc-100 tracking-tight mb-3">{project.name}</h1>

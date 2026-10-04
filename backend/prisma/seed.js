@@ -79,6 +79,15 @@ async function main() {
       url: 'https://autoe.co.uk',
       order: 3,
     },
+    {
+      slug: 'warranty-plus-plus',
+      name: 'Warranty++',
+      logoUrl: '/uploads/projects/warranty-plus-plus.svg',
+      tagline: 'Your free extra warranty has a deadline.',
+      description: `Appliance makers hand out extra warranty years — ten years on a washing machine motor, five on selected models — but only to buyers who register the appliance in time. The window is short, usually 28 to 90 days from purchase, the shop does not register anything, and the maker sends no reminder, so the deadline passes quietly and the extra cover is gone. Warranty++ reads the deadline out of each maker's own terms, tracks it, and files the registration in the buyer's name. Registration is done openly: no security checks are bypassed, confirmation codes go to the buyer to enter, and marketing consent is never ticked on their behalf. Early access, UK home appliances first, brands added one at a time and each checked on the real maker site.`,
+      url: 'https://warrantyplusplus.com',
+      order: 4,
+    },
   ]
 
   for (const p of projects) {
@@ -121,6 +130,14 @@ async function main() {
       'yulia-tkachenko',    // AI Product Engineer
       'anastasia-bondar',   // ML Research Engineer — charging network models
       'darya-melnyk',       // Staff Journalist — the site runs a blog
+    ],
+    'warranty-plus-plus': [
+      'iryna-marchenko',    // Systems Architect
+      'alina-moroz',        // AI Integration Engineer — the registration robot
+      'viktoria-lysenko',   // Backend Engineer
+      'natalia-petrenko',   // Frontend Engineer
+      'olena-kravchenko',   // DevOps Engineer
+      'sofia-kovalenko',    // Content Writer — brand terms research and site copy
     ],
   }
 

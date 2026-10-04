@@ -1,5 +1,7 @@
+import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
+import { absolute, clamp, entityTitle } from '../../lib/seo'
 
 async function getProject(slug: string) {
   try {
@@ -18,6 +20,33 @@ export async function generateStaticParams() {
     const projects = await res.json()
     return projects.map((p: { slug: string }) => ({ slug: p.slug }))
   } catch { return [] }
+}
+
+export async function generateMetadata(
+  { params }: { params: Promise<{ slug: string }> },
+): Promise<Metadata> {
+  const { slug } = await params
+  const project = await getProject(slug)
+  if (!project) return {}
+
+  const canonical = `/projects/${slug}`
+  const description = clamp(project.description) ?? clamp(project.tagline)
+  const image = absolute(project.logoUrl)
+
+  return {
+    title: entityTitle(project.name, project.tagline),
+    description,
+    alternates: { canonical },
+    openGraph: {
+      type: 'article',
+      url: canonical,
+      title: entityTitle(project.name, project.tagline),
+      description,
+      // openGraph on a page replaces the parent's wholesale, so the image has
+      // to be named here rather than inherited.
+      ...(image ? { images: [image] } : {}),
+    },
+  }
 }
 
 export default async function ProjectPage({ params }: { params: Promise<{ slug: string }> }) {

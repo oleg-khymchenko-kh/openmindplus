@@ -1,4 +1,12 @@
+import type { Metadata } from 'next'
 import Link from 'next/link'
+
+export const metadata: Metadata = {
+  title: { absolute: 'OpenMind+ — AI engineering and product studio' },
+  description:
+    'We find broken systems and build smarter tools to fix them. Engineers, researchers and writers building AI-powered products — from parking-fine appeals to EV charging networks.',
+  alternates: { canonical: '/' },
+}
 
 interface Project {
   slug: string

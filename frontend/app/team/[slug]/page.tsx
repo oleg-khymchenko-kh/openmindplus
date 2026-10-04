@@ -1,5 +1,8 @@
+import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
+import JsonLd from '../../components/JsonLd'
+import { absolute, personSchema } from '../../lib/seo'
 
 async function getMember(slug: string) {
   try {
@@ -20,6 +23,37 @@ export async function generateStaticParams() {
   } catch { return [] }
 }
 
+export async function generateMetadata(
+  { params }: { params: Promise<{ slug: string }> },
+): Promise<Metadata> {
+  const { slug } = await params
+  const member = await getMember(slug)
+  if (!member) return {}
+
+  const canonical = `/team/${slug}`
+  const title = `${member.name} — ${member.role}`
+  const projects = (member.projects ?? [])
+    .map((p: { project: { name: string } }) => p.project.name)
+    .join(', ')
+  const description = projects
+    ? `${member.name} is ${member.role} at OpenMind+, working on ${projects}.`
+    : `${member.name} is ${member.role} at OpenMind+.`
+  const image = absolute(member.photoUrl)
+
+  return {
+    title,
+    description,
+    alternates: { canonical },
+    openGraph: {
+      type: 'profile',
+      url: canonical,
+      title,
+      description,
+      ...(image ? { images: [image] } : {}),
+    },
+  }
+}
+
 export default async function TeamMemberPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
   const member = await getMember(slug)
@@ -34,6 +68,9 @@ export default async function TeamMemberPage({ params }: { params: Promise<{ slu
 
   return (
     <main className="min-h-screen bg-zinc-950 py-20 px-5">
+      {/* Shares its @id with argoaero.co.uk, where these people author
+          articles, so both mentions resolve to one person. */}
+      <JsonLd data={personSchema(member)} />
       <div className="max-w-2xl mx-auto">
         <Link href="/team" className="inline-flex items-center gap-2 text-zinc-500 hover:text-zinc-300 text-sm mb-10 transition-colors">
           ← Back to Team

@@ -1,7 +1,12 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 
-export const metadata: Metadata = { title: 'Team' }
+export const metadata: Metadata = {
+  title: 'Team',
+  description:
+    'The engineers, researchers and writers behind OpenMind+ — the people who build and run GetOSH, Argo Aero and AutoE.',
+  alternates: { canonical: '/team' },
+}
 
 interface TeamMember {
   slug: string

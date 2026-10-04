@@ -27,7 +27,12 @@ export function entityTitle(name: string, qualifier?: string | null): string {
   // in London".
   const clause = qualifier.replace(/\s+/g, ' ').trim().split(/\s+—\s+|\.\s+|,\s+/)[0]
   const trimmed = clause.replace(/[\s,.;:—-]+$/, '')
-  return `${name} — ${cutAtWord(trimmed, budget)}`
+
+  // A fragment is worse than no qualifier: "Warranty++ — Your free extra
+  // warranty has a" reads as a bug. If the clause does not fit whole, the
+  // name stands alone.
+  if (trimmed.length > budget) return name
+  return `${name} — ${trimmed}`
 }
 
 /** Trim a description down to what a search result can show in full. */

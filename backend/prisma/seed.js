@@ -19,7 +19,7 @@ async function main() {
   // Team members
   const members = [
     // Engineering
-    { slug: 'natalia-petrenko',   name: 'Natalia Petrenko',   role: 'Frontend Engineer',       department: 'engineering', order: 1 },
+    { slug: 'natalia-petrenko',   name: 'Natalia Petrenko',   role: 'Frontend Engineer',       department: 'engineering', order: 1, photoUrl: '/uploads/team/natalia-petrenko.jpg' },
     { slug: 'viktoria-lysenko',   name: 'Viktoria Lysenko',   role: 'Backend Engineer',         department: 'engineering', order: 2 },
     { slug: 'alina-moroz',        name: 'Alina Moroz',        role: 'AI Integration Engineer',  department: 'engineering', order: 3 },
     { slug: 'polina-savchenko',   name: 'Polina Savchenko',   role: 'Data Engineer',            department: 'engineering', order: 4 },
@@ -28,16 +28,17 @@ async function main() {
     { slug: 'iryna-marchenko',    name: 'Iryna Marchenko',    role: 'Systems Architect',        department: 'engineering', order: 7 },
     { slug: 'olena-kravchenko',   name: 'Olena Kravchenko',   role: 'DevOps Engineer',          department: 'engineering', order: 8 },
     // Content
-    { slug: 'sofia-kovalenko',    name: 'Sofia Kovalenko',    role: 'Content Writer',           department: 'content', order: 9 },
+    { slug: 'sofia-kovalenko',    name: 'Sofia Kovalenko',    role: 'Content Writer',           department: 'content', order: 9, photoUrl: '/uploads/team/sofia-kovalenko.jpg' },
     { slug: 'darya-melnyk',       name: 'Darya Melnyk',       role: 'Staff Journalist',         department: 'content', order: 10 },
     { slug: 'kateryna-shevchenko',name: 'Kateryna Shevchenko',role: 'Correspondent',            department: 'content', order: 11 },
-    { slug: 'maria-kryvoruchko',  name: 'Maria Kryvoruchko',  role: 'Editorial Lead',           department: 'content', order: 12 },
+    { slug: 'maria-kryvoruchko',  name: 'Maria Kryvoruchko',  role: 'Editorial Lead',           department: 'content', order: 12, photoUrl: '/uploads/team/maria-kryvoruchko.jpg' },
   ]
 
   for (const m of members) {
     await prisma.teamMember.upsert({
       where: { slug: m.slug },
-      update: {},
+      // Only photos are re-applied on a re-run; the rest is editable in the DB.
+      update: m.photoUrl ? { photoUrl: m.photoUrl } : {},
       create: m,
     })
   }

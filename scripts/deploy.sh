@@ -30,6 +30,9 @@ rm -rf "$PROJECT_DIR/app/current"
 cp -r "$TEMP_DIR/backend" "$PROJECT_DIR/app/current"
 cd "$PROJECT_DIR/app/current"
 npm install --production
+# npm 11 skips install scripts unless they are approved, so @prisma/client
+# no longer generates itself on install
+npx prisma generate
 cp "$PROJECT_DIR/app/.env" .env
 
 # Run DB migrations

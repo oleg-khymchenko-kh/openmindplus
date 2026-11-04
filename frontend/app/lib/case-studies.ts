@@ -365,6 +365,9 @@ export const caseStudies: CaseStudy[] = [
     // Percentages recomputed here from the absolute counts. The owner has NOT
     // decided to stop: the decision waits on a re-check set for 17 Nov 2026.
     // Update this study after that date.
+    // One-page share: site_event, event 'view', 1 Oct – 4 Nov 2026. 1,046 saw
+    // only Romanian pages (1,017 of them exactly one); 1,077 saw a Romanian
+    // page at all; 29 of those started on it and went on, ordered by time.
     title: 'The page that took 46% of Argo Aero’s clicks, and no enquiries',
     client: 'Argo Aero',
     industry: 'Aviation — gyroplane and helicopter sales',
@@ -420,7 +423,7 @@ export const caseStudies: CaseStudy[] = [
             ],
           },
           'In the same ten days the English contact page had 18 visits, 17 reached the form, and 4 people sent an enquiry. Every enquiry form the site received from October to early November was sent from that one page.',
-          'So the problem was not that people never got as far as the form. A third of them did. Nobody touched it. Of the 1,046 visitors who saw only Romanian pages, 97 in every 100 looked at one page and left — against 71 in 100 among the site’s other visitors. Of the 1,077 who landed on a Romanian page at all, 31 went on to the rest of the site.',
+          'So the problem was not that people never got as far as the form. A third of them did. Nobody touched it. Of the 1,046 visitors who saw only Romanian pages, 97 in every 100 looked at one page and left — against 71 in 100 among the site’s other visitors. Of the 1,077 who saw a Romanian page at all, 29 started there and went on to the rest of the site.',
         ],
       },
       {

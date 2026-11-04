@@ -19,7 +19,7 @@ async function main() {
   // Team members
   const members = [
     // Engineering — the lead sorts above the rest
-    { slug: 'kateryna-khymchenko', name: 'Kateryna Khymchenko', role: 'Engineering Lead',      department: 'engineering', order: 0, linkedinUrl: 'https://www.linkedin.com/in/kateryna-khymchenko/' },
+    { slug: 'kateryna-khymchenko', name: 'Kateryna Khymchenko', role: 'Engineering Lead',      department: 'engineering', order: 0, linkedinUrl: 'https://www.linkedin.com/in/kateryna-khymchenko/', photoUrl: '/uploads/team/kateryna-khymchenko.jpg' },
     { slug: 'natalia-petrenko',   name: 'Natalia Petrenko',   role: 'Frontend Engineer',       department: 'engineering', order: 1, photoUrl: '/uploads/team/natalia-petrenko.jpg' },
     { slug: 'viktoria-lysenko',   name: 'Viktoria Lysenko',   role: 'Backend Engineer',         department: 'engineering', order: 2 },
     { slug: 'alina-moroz',        name: 'Alina Moroz',        role: 'AI Integration Engineer',  department: 'engineering', order: 3 },

@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { absolute, clamp, entityTitle } from '../../lib/seo'
+import { publishedStudies } from '../../lib/case-studies'
 
 async function getProject(slug: string) {
   try {
@@ -85,6 +86,15 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
         {project.description && (
           <p className="text-zinc-400 leading-relaxed mb-16 text-base border-t border-zinc-800 pt-8">{project.description}</p>
         )}
+
+        {/* The case study is the page that sells; send the reader on to it. */}
+        {publishedStudies().filter(s => s.projectSlug === slug).map(s => (
+          <Link key={s.slug} href={`/case-studies/${s.slug}`}
+            className="group block mb-16 -mt-8 rounded-2xl border border-zinc-800 p-6 hover:border-zinc-600 hover:bg-zinc-900/50 transition-all">
+            <p className="text-xs font-semibold uppercase tracking-widest text-zinc-500 mb-2">Case study</p>
+            <p className="text-lg font-semibold text-zinc-100 group-hover:text-white leading-snug">{s.title} →</p>
+          </Link>
+        ))}
 
         {project.members?.length > 0 && (
           <div>

@@ -16,9 +16,14 @@ export default function PublicShell({ children }: { children: React.ReactNode })
           <Link href="/" className="font-semibold text-zinc-100 tracking-tight">
             Open<span className="text-zinc-400">Mind</span><span className="text-white">+</span>
           </Link>
-          <div className="flex items-center gap-6 text-sm text-zinc-300">
+          <div className="flex items-center gap-4 sm:gap-6 text-sm text-zinc-300">
             <Link href="/team" className="hover:text-white transition-colors">Team</Link>
             <Link href="/projects" className="hover:text-white transition-colors">Projects</Link>
+            {/* Short label on phones: four links and the logo must fit 375px. */}
+            <Link href="/case-studies" className="hover:text-white transition-colors">
+              <span className="sm:hidden">Cases</span>
+              <span className="hidden sm:inline">Case studies</span>
+            </Link>
             <Link href="/contact" className="hover:text-white transition-colors">Contact</Link>
           </div>
         </nav>

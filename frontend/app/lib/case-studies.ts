@@ -236,7 +236,7 @@ export const caseStudies: CaseStudy[] = [
       stack: ['Node.js', 'Koa', 'MySQL', 'Sequelize', 'Large language models', 'pdf-lib', 'Gmail API', 'S3'],
       notes: [
         'Intake from three channels — WhatsApp, Telegram and the web app — feeds a single pipeline, so recognition and case logic exist once.',
-        'Document understanding is split into two passes: field extraction, then issuer classification as a separate step. On noisy, real-world input — photos from many hundreds of different council and operator formats — separating the two improves accuracy over asking one model call to do both.',
+        'Document understanding is split into two passes: field extraction, then issuer classification as a separate step. On noisy, real-world input — photos in a wide range of council and operator formats — separating the two improves accuracy over asking one model call to do both.',
         'The analysis runs in a separate background worker, not in the request the user is waiting on. Workers take tasks from a queue and each claim carries a run identifier, so the same task is never processed twice when more than one worker is running.',
         'For every task the worker archives the full run, including the requests to the model and its responses. Any unexpected result can be reopened and replayed later exactly as the system saw it — which is how you explain an AI decision after the fact rather than guessing at it.',
         'Statutory forms are generated as filled PDFs. Correspondence arriving by email is imported into the case it belongs to.',
@@ -244,7 +244,7 @@ export const caseStudies: CaseStudy[] = [
     },
     projectSlug: 'getosh',
     url: 'https://getosh.today',
-    published: false,
+    published: true,
   },
   {
     slug: 'le-company-bitrix24-rebuilt-in-house',
@@ -257,9 +257,12 @@ export const caseStudies: CaseStudy[] = [
     // change. The call-centre form is built but not yet in use, so it is not
     // described as having replaced anything. Parts-shop features are
     // described as built, not as trading results: it has taken no orders.
-    // Sources: lecompany-app docs/bitrix-board.md, ffb-form.md,
+    // Company description from its own site, www.lecompany.co.uk (engineering
+    // repair and installation, London; commercial kitchen and coffee
+    // equipment). The platform itself handles coffee-machine rental, sales and
+    // service. Sources: lecompany-app docs/bitrix-board.md, ffb-form.md,
     // visits-page.md and git log; lecompany-parts session notes.
-    title: 'Le Company rebuilt its Bitrix24 workflows in-house, with no downtime',
+    title: 'Le Company rebuilt its Bitrix24 workflows in-house',
     client: 'Le Company',
     industry: 'Commercial equipment repair',
     location: 'London, UK',
@@ -267,27 +270,27 @@ export const caseStudies: CaseStudy[] = [
     status: 'live',
     checked: '2026-11-04',
     lede:
-      'A London engineering firm was running every job through two systems at once. We rebuilt the parts of Bitrix24 its team actually uses inside its own platform — while the business carried on working.',
+      'A London engineering firm was running every job through two systems at once. We rebuilt the parts of Bitrix24 its team actually uses inside its own platform, while the business kept running.',
     summary: {
       challenge:
         'Orders and customer accounts lived in the company’s own platform, while the sales pipeline, engineer visits and invoices lived in Bitrix24. Two screens for the same work, held together by a sync.',
       solution:
         'The deal board, deal records, engineer visits and invoicing rebuilt inside the company’s own system, moved across with the two systems running side by side so nothing stopped.',
       outcome:
-        'The team’s daily tools rebuilt around how it works, with no day lost to the switch — and Bitrix24 reduced to a set of marked calls that can be removed in one step.',
+        'The team’s daily tools rebuilt around how it works, introduced while the business kept running — with Bitrix24 kept in sync behind them until it is retired.',
     },
     stats: [
       {
         value: '4,434',
-        label: 'deals in the coffee-machine pipeline carried into the new board',
-        source: 'count of deals in the new system’s mirrored database, October 2026 snapshot',
+        label: 'open deals in the coffee-machine pipeline, re-read from Bitrix24 in one full sync',
+        source: 'engineering notes, test run on a development copy, October 2026',
       },
     ],
     story: [
       {
         heading: 'Two systems for the same job',
         body: [
-          'Le Company repairs and installs commercial kitchen equipment and coffee machines across London. Since 2024 it has had its own platform for customer orders, customer accounts, card payments and email.',
+          'Le Company is a London engineering firm that repairs and installs commercial kitchen equipment and coffee machines. Since 2024 its coffee-machine rental, sales and service work has run on its own platform: customer orders, customer accounts, card payments and email.',
           'Alongside it ran Bitrix24, a widely used off-the-shelf business system. That is where the sales pipeline lived, along with engineer visits, invoices, the comment history on every job and the web forms new enquiries came in through.',
           'The two were kept in step in both directions. In practice that meant the same information in two places, two screens to check, and a link between them that had to work around Bitrix24’s own limits — on how fast it can be asked for data, and in one case on an update that quietly removed files already attached to a job.',
         ],
@@ -311,9 +314,9 @@ export const caseStudies: CaseStudy[] = [
         heading: 'Moving without stopping',
         body: [
           'What a business fears most about changing systems is the switch itself: the weekend when nothing works, the records that do not come across. We did not do it with a single switch.',
-          'Bitrix24’s records are copied into the company’s own database. Each change made in the new system is written to Bitrix24 at the same moment, then read back to confirm it arrived. If Bitrix24 refuses it, the change is undone and the person sees exactly what went wrong — so the two can never quietly drift apart.',
+          'Bitrix24’s records are copied into the company’s own database. Each change made in the new system is written to Bitrix24 at the same moment, then read back to confirm it arrived. If Bitrix24 refuses it, the change is undone and the person sees exactly what went wrong — so a change made in the new system cannot be saved in one place and lost in the other.',
           'That is what lets the new screens be taken up one at a time while the business carries on. Nobody has to be moved or re-invited, because the user accounts were always the company’s own.',
-          'Every call that still goes to Bitrix24 is marked in the code. Retiring it is a matter of removing those calls, not another migration.',
+          'Bitrix24 stays in the loop for now. Each new screen was built so that its Bitrix24 calls can be dropped later; switching Bitrix24 off will still mean replacing the automations that run inside it.',
         ],
       },
       {
@@ -321,9 +324,8 @@ export const caseStudies: CaseStudy[] = [
         body: [
           {
             list: [
-              'When an engineer’s signed service report comes in, it attaches itself to the visit and closes it. Nobody has to file it.',
               'Email with each customer is brought into one conversation on their record, instead of sitting in someone’s inbox.',
-              'Staff answering customers get a draft reply written by AI, which they read and edit before it goes.',
+              'Inside each customer conversation, staff can ask an AI assistant to help draft the reply; nothing is sent to the customer without them.',
             ],
           },
         ],
@@ -340,15 +342,15 @@ export const caseStudies: CaseStudy[] = [
     technical: {
       stack: ['Angular', 'Node.js', 'Koa', 'MySQL', 'Sequelize', 'Bitrix24 REST', 'Stripe', 'Gmail API', 'OpenAI'],
       notes: [
-        'Server on Koa with Sequelize over MySQL, client in Angular. Bitrix24 stages, deals, invoices, comments and files are mirrored into MySQL; a full re-import of the larger pipeline completes in under two minutes.',
+        'Server on Koa with Sequelize over MySQL, client in Angular. Bitrix24 stages, deals, invoices, comments and files are mirrored into MySQL; a full re-import of the larger pipeline, about 4,400 open deals, took under two minutes in a test run.',
         'Writes go through to Bitrix24: the local change is sent over REST, the affected records are re-imported, and on any error the local row is restored and the error surfaced to the user. Bitrix24 stays the system of record during the transition, which is what makes the new screens safe to adopt piecemeal.',
         'Bitrix24’s REST API allows roughly two requests a second, so calls are queued with retry and back-off. One legacy deal-update method drops existing file attachments; updates use a path that preserves them.',
         'Releases swap the running version atomically and keep the previous one for rollback; the database is backed up nightly with rotation.',
-        'The parts shop is a separate build: server-rendered Next.js for indexability across six languages, Fastify, Prisma over MySQL and Stripe Checkout. The core-exchange deposit is a distinct line item, so a refund is a single call. The production server holds no source code and has no access to the repository.',
+        'The parts shop is a separate build: server-rendered Next.js for indexability across six languages, Fastify, Prisma over MySQL and Stripe Checkout. The core-exchange deposit is a distinct line item, so a refund is a single call.',
       ],
     },
     url: 'https://www.lecompany.co.uk',
-    published: false,
+    published: true,
   },
   {
     slug: 'argo-aero-measuring-the-funnel',

@@ -35,7 +35,9 @@ export default async function TeamPage() {
     <main className="min-h-screen bg-zinc-950 py-20 px-5">
       <div className="max-w-5xl mx-auto">
         <p className="text-xs font-semibold text-zinc-400 uppercase tracking-widest mb-4">The Team</p>
-        <h1 className="text-4xl sm:text-5xl font-bold text-white mb-4 tracking-tight">12 minds. One vision.</h1>
+        <h1 className="text-4xl sm:text-5xl font-bold text-white mb-4 tracking-tight">
+          {team.length ? `${team.length} minds. One vision.` : 'One vision.'}
+        </h1>
         <p className="text-zinc-300 text-xl mb-16 max-w-xl">
           Engineers, researchers, writers — and AI agents — all working toward the same goal.
         </p>

@@ -18,7 +18,8 @@ async function main() {
 
   // Team members
   const members = [
-    // Engineering
+    // Engineering — the lead sorts above the rest
+    { slug: 'kateryna-khymchenko', name: 'Kateryna Khymchenko', role: 'Engineering Lead',      department: 'engineering', order: 0, linkedinUrl: 'https://www.linkedin.com/in/kateryna-khymchenko/' },
     { slug: 'natalia-petrenko',   name: 'Natalia Petrenko',   role: 'Frontend Engineer',       department: 'engineering', order: 1, photoUrl: '/uploads/team/natalia-petrenko.jpg' },
     { slug: 'viktoria-lysenko',   name: 'Viktoria Lysenko',   role: 'Backend Engineer',         department: 'engineering', order: 2 },
     { slug: 'alina-moroz',        name: 'Alina Moroz',        role: 'AI Integration Engineer',  department: 'engineering', order: 3 },
@@ -113,6 +114,7 @@ async function main() {
   // Team assignments for the other projects. A member can be on several projects.
   const assignments = {
     'argo-aero': [
+      'kateryna-khymchenko',// Engineering Lead — leads delivery on every project
       'natalia-petrenko',   // Frontend Engineer
       'viktoria-lysenko',   // Backend Engineer
       'alina-moroz',        // AI Integration Engineer — Telegram enquiry bot
@@ -122,6 +124,7 @@ async function main() {
       'kateryna-shevchenko',// Correspondent — aviation press materials
     ],
     autoe: [
+      'kateryna-khymchenko',// Engineering Lead
       'iryna-marchenko',    // Systems Architect
       'viktoria-lysenko',   // Backend Engineer
       'natalia-petrenko',   // Frontend Engineer
@@ -132,6 +135,7 @@ async function main() {
       'darya-melnyk',       // Staff Journalist — the site runs a blog
     ],
     'warranty-plus-plus': [
+      'kateryna-khymchenko',// Engineering Lead
       'iryna-marchenko',    // Systems Architect
       'alina-moroz',        // AI Integration Engineer — the registration robot
       'viktoria-lysenko',   // Backend Engineer

@@ -13,7 +13,9 @@ export const metadata: Metadata = {
     default: "OpenMind+",
     template: "%s · OpenMind+",
   },
-  description: "We find broken systems and build smarter tools to fix them. 12 minds — engineers, researchers, writers, and AI agents — working as one.",
+  // No headcount here: this string is static metadata and would go stale on
+  // every hire.
+  description: "We find broken systems and build smarter tools to fix them. Engineers, researchers, writers and AI agents — working as one.",
   openGraph: {
     type: "website",
     siteName: SITE_NAME,

@@ -18,9 +18,9 @@ interface Project {
   createdAt: string
 }
 
-async function getProjects(): Promise<Project[]> {
+async function getJson<T>(path: string): Promise<T[]> {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || ''}/api/projects`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || ''}${path}`, {
       next: { revalidate: 3600 },
     })
     if (!res.ok) return []
@@ -29,7 +29,11 @@ async function getProjects(): Promise<Project[]> {
 }
 
 export default async function Home() {
-  const projects = await getProjects()
+  // Counts come from the API: hardcoding them has gone stale twice already.
+  const [projects, team] = await Promise.all([
+    getJson<Project>('/api/projects'),
+    getJson<{ slug: string }>('/api/team'),
+  ])
   // The newest project takes the featured slot, so it never goes stale again.
   const latest = [...projects].sort(
     (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
@@ -48,7 +52,7 @@ export default async function Home() {
         </h1>
         <p className="text-lg sm:text-xl text-zinc-300 max-w-xl mx-auto mb-10 leading-relaxed">
           We find broken systems and build smarter tools to fix them.
-          12 minds — engineers, researchers, writers, and AI agents — working across borders as one team.
+          {team.length ? `${team.length} minds — ` : ''}engineers, researchers, writers, and AI agents — working across borders as one team.
         </p>
         <div className="flex flex-col sm:flex-row gap-3 w-full max-w-xs sm:max-w-none sm:w-auto justify-center">
           <Link href="/projects"
@@ -107,7 +111,7 @@ export default async function Home() {
       <section className="py-16 px-5">
         <div className="max-w-5xl mx-auto grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-10 text-center">
           {[
-            { value: '12+', label: 'Team members' },
+            { value: String(team.length || 12), label: 'Team members' },
             { value: String(projects.length || 3), label: projects.length === 1 ? 'Live project' : 'Live projects' },
             { value: '🌍',  label: 'Global reach' },
             { value: 'AI',  label: 'Powered' },

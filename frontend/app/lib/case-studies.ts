@@ -63,32 +63,32 @@ export const caseStudies: CaseStudy[] = [
     // landing page rendering as a 404 to Googlebot..."); figures from the
     // Autoe session's build and network measurements and Search Console URL
     // Inspection, before and after. Checked 2026-11-04.
-    title: '168 blog articles kept in Google after a fault nobody could see',
+    title: '168 blog articles that opened fine for everyone except Google',
     client: 'AutoE',
     industry: 'EV charging',
     location: 'London, UK',
-    period: 'August — September 2026',
+    period: 'August 2026',
     status: 'live',
     checked: '2026-11-04',
     lede:
-      'Every article on the site opened perfectly in a browser. Google, looking at the same address, saw an error page — and was about to drop the whole blog from search.',
+      'Every article on the site opened perfectly in a browser. Google, looking at the same address, saw an error page — and refused to index it.',
     summary: {
       challenge:
-        'A long-running site with 168 articles. Anyone who opened one saw it correctly, yet Google reported each of them as missing and refused to index them.',
+        'A long-running site with 168 articles. Anyone who opened one saw it correctly, yet what Google saw at the same address was an error page it would not index.',
       solution:
         'We traced it to one oversized data request that Google gave up on before it finished, and changed the site so an article no longer depends on it.',
       outcome:
-        'Google’s own inspection tool went from “page cannot be indexed” to “page can be indexed”, and every page on the site now downloads a tenth of the data it did.',
+        'Google’s own inspection tool went from “page cannot be indexed” to “page can be indexed”, and a data request every page used to make now transfers a tenth of what it did.',
     },
     stats: [
       {
         value: '168',
         label: 'articles Google saw as an error page, now readable to it again',
-        source: 'Google Search Console URL Inspection, live test before and after the fix, August 2026',
+        source: 'every article then on the blog, all served by the single code path that failed — count from the site’s own database, August 2026. The before-and-after live test in Google Search Console was run on sample article and landing-page addresses',
       },
       {
         value: '−90%',
-        label: 'data each page loads before showing anything — 272 KB down to 26 KB',
+        label: 'smaller: the data request every page of the site made — 272 KB down to 26 KB compressed',
         source: 'compressed transfer size of the request removed site-wide, measured before and after, August 2026',
       },
     ],
@@ -96,15 +96,16 @@ export const caseStudies: CaseStudy[] = [
       {
         heading: 'Everything looked fine',
         body: [
-          'AutoE sells and installs electric-vehicle chargers in London, and its blog is how many customers first find it: articles on choosing a home charger, repairing one, or starting a charging business.',
-          'Nothing was visibly wrong. Open any article and there it was — the right headline, the right text, the right images. Every routine check the site went through came back clean.',
+          'AutoE sells and installs electric-vehicle chargers in London, and its blog is a large part of how the site is found in search: articles on choosing a home charger, repairing one, or starting a charging business.',
+          'Nothing was visibly wrong. Open any article and there it was — the right headline, the right text, the right images. Looking at the site the ordinary way told you nothing.',
+          'What did show something was Google’s own report. It had started flagging the articles as “soft 404” — pages that answer as though they exist but look empty. That is what sent us to check the site through the crawler’s eyes rather than our own.',
         ],
       },
       {
         heading: 'What Google actually saw',
         body: [
-          'Google, visiting exactly the same addresses, saw something else: a green “404 — page not found” screen. It marked the articles as missing and stopped indexing them.',
-          'It was not only new articles. It was all of them, including ones Google had already listed for years. At its next visit it would have removed them from search results — and the site would have lost the pages bringing people to it, without anyone noticing why.',
+          'Google, visiting exactly the same addresses, saw something else: a green “404 — page not found” screen. It reported them as missing and would not index them.',
+          'It was not only new articles. It was all of them, including ones Google had already listed for years. Left alone, articles already in search were liable to drop out at the next crawl: a page that answers like this is how a site tells Google a page is no longer there. Nobody would have seen why.',
         ],
       },
       {
@@ -113,6 +114,7 @@ export const caseStudies: CaseStudy[] = [
           'The cause was the order in which things happened. The page arrived correct. Then the site’s scripts started, and asked the server for the text of the article — in a single request that fetched all 168 articles at once.',
           'A browser on a decent connection waits for that. Google does not wait for ever: by the time the site’s main program had loaded, it had used up its time on the page. The request never finished, the site concluded the article did not exist, and it replaced the correct page with the error screen.',
           'So the fault only existed after the scripts ran, and only for a visitor that stops waiting early. A person checking the site would never see it.',
+          'The flaw itself was old: the line that made “data has not arrived” and “this page does not exist” look identical to the site had been there since February 2023. How long Google had been affected cannot be known — the site’s Search Console history began five days before we found it. The failure also became likelier as the blog grew, because the request got heavier with every article published.',
         ],
       },
       {
@@ -132,7 +134,7 @@ export const caseStudies: CaseStudy[] = [
         heading: 'How we know it worked',
         body: [
           'We used Google’s own inspection tool, which shows a page the way its crawler sees it. Before the fix it reported a “soft 404”: the page cannot be indexed. After, it reported that the page can be indexed.',
-          'Removing that oversized request also helped every visitor, not only Google. It had been made on every page of the site, articles or not. Each page now downloads about a tenth as much before it can show anything.',
+          'Removing that oversized request also helped every visitor, not only Google. It had been made on every page of the site, articles or not — and it now transfers about a tenth of what it did.',
         ],
       },
       {
@@ -147,15 +149,15 @@ export const caseStudies: CaseStudy[] = [
       stack: ['Angular', 'Node.js', 'Koa', 'MySQL', 'Playwright', 'nginx', 'Cloudflare'],
       notes: [
         'An Angular single-page app with its own prerender: every route is captured to static HTML with title, meta, canonical and JSON-LD by a Playwright pass, and the server returns that HTML before the bundle loads. It is a custom build, not Angular Universal.',
-        'The failure was in hydration. On boot the client fetched the full posts collection — 168 bodies, 809 KB — to resolve the current article. Googlebot’s render budget was largely spent on the main bundle, the request did not resolve in time, and the article component treated absent data as not-found and routed to the 404 view. Google classified the result as a soft 404.',
+        'The failure was in hydration. On boot the client fetched the full posts collection — 168 bodies, 809 KB — to resolve the current article. Googlebot’s render budget was most likely spent on the main bundle, the request did not resolve in time, and the article component treated absent data as not-found and routed to the 404 view. Google classified the result as a soft 404.',
         'Fix: the article payload is serialised into the prerendered HTML, so hydration needs no request; the fallback endpoint returns one post by slug; and the not-found route renders only on an explicit 404 from the API, never on missing or pending data. Verified with a URL Inspection live test.',
-        'The same collection request ran on every route, so removing it cut the per-page payload from 809 KB to 119 KB, or 272 KB to 26 KB compressed.',
-        'The server dependencies (Koa 2, Sequelize 5) date from 2019 and were left as they were: the runtime moved from Node 20 to 24 with no code changes, because the stack is plain JavaScript. A long-lived product is allowed to look like one.',
+        'The same collection request ran on every route, so removing it cut that request from 809 KB to 119 KB, or 272 KB to 26 KB compressed.',
+        'The server dependencies date from the project’s early years and were left as they were: the runtime moved to a current Node with no code changes, because the stack is plain JavaScript. A long-lived product is allowed to look like one.',
       ],
     },
     projectSlug: 'autoe',
     url: 'https://autoe.co.uk',
-    published: false,
+    published: true,
   },
   {
     slug: 'getosh-parking-fine-in-one-place',
@@ -365,13 +367,13 @@ export const caseStudies: CaseStudy[] = [
     // Update this study after that date.
     title: 'The page that took 46% of Argo Aero’s clicks, and no enquiries',
     client: 'Argo Aero',
-    industry: 'Aviation — gyroplane sales',
+    industry: 'Aviation — gyroplane and helicopter sales',
     location: 'London, UK',
     period: 'August — November 2026',
     status: 'in-progress',
     checked: '2026-11-04',
     lede:
-      'One page started drawing almost half of all the visitors Google sent to the site. Counting what those visitors did next showed it had not brought a single enquiry — and why that mattered before spending more.',
+      'One page started drawing almost half of all the clicks Google sent to the site. Counting what those visitors did next showed it had not brought a single enquiry — and why that mattered before spending more.',
     summary: {
       challenge:
         'A page written for a new language market became the most visited page on the site. It looked like the best result the site had ever had.',
@@ -401,8 +403,8 @@ export const caseStudies: CaseStudy[] = [
       {
         heading: 'A win nobody planned for',
         body: [
-          'Argo Aero sells gyroplanes — light two-seat aircraft — from London. In September we published pages for buyers in new languages, Romanian among them.',
-          'Within weeks one Romanian page was drawing almost half of all the clicks Google sent to the site: 907 out of 1,958 between mid-August and early November. The phrase bringing them was “elicopter de vanzare” — Romanian for “helicopter for sale” — where the page sat on average around third in the results. Over the same period the site’s home market, the UK, brought 86 clicks.',
+          'Argo Aero sells two kinds of light aircraft from the UK: ARGON gyroplanes and ARGO helicopters. In mid-September we published nine pages in Georgian and Romanian, aimed at buyers in Georgia and Moldova. The readers turned out to be somewhere else: Romania.',
+          'Within weeks one Romanian page was drawing almost half of all the clicks Google sent to the site: 907 out of the 1,958 clicks the site had between mid-August and early November — and the page had only existed since 15 September. The phrase bringing them was “elicopter de vanzare” — Romanian for “helicopter for sale” — where the page sat on average around third or fourth in the results. Over the same period three Romanian pages brought 914 clicks and the site’s ninety-five English pages brought 189.',
           'On a traffic report, that is the best thing that had happened to the site.',
         ],
       },
@@ -417,8 +419,8 @@ export const caseStudies: CaseStudy[] = [
               'None started filling it in. None sent it.',
             ],
           },
-          'In the same ten days the English contact page had 18 visits, 17 reached the form, and 4 people sent an enquiry. Every enquiry the site received from October to early November came through that one page.',
-          'So the problem was not that people never got as far as the form. A third of them did. Nobody touched it. And almost everyone who arrived on a Romanian page — 97 in every 100 — looked at that one page and left, against 71 in 100 among the site’s other visitors.',
+          'In the same ten days the English contact page had 18 visits, 17 reached the form, and 4 people sent an enquiry. Every enquiry form the site received from October to early November was sent from that one page.',
+          'So the problem was not that people never got as far as the form. A third of them did. Nobody touched it. Of the 1,046 visitors who saw only Romanian pages, 97 in every 100 looked at one page and left — against 71 in 100 among the site’s other visitors. Of the 1,077 who landed on a Romanian page at all, 31 went on to the rest of the site.',
         ],
       },
       {
@@ -433,7 +435,7 @@ export const caseStudies: CaseStudy[] = [
         body: [
           'On 3 November we found that the Romanian page was sitting inside the English site. The menu, the footer and the buttons on the first screen were all in English, and the page told search engines the business serves the United Kingdom. A Romanian reader arrived on a page that was mostly not talking to them.',
           'It was corrected the same day, across all four language sections of the site.',
-          'There is a second possibility worth saying plainly. The people arriving had searched for a helicopter, and a gyroplane is a different aircraft. Some of them were never going to be buyers, whatever language the buttons were in.',
+          'A second cause may still be at work, and we have not identified one. That is the reason the check has a date on it rather than a conclusion.',
         ],
       },
       {

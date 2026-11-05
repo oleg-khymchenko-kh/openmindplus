@@ -498,7 +498,7 @@ export const caseStudies: CaseStudy[] = [
     client: 'Warranty++',
     industry: 'Consumer services — home appliance warranties',
     location: 'United Kingdom',
-    period: '2026 — ongoing',
+    period: 'September 2026 — ongoing',
     status: 'in-progress',
     checked: '2026-11-05',
     lede:
@@ -509,7 +509,7 @@ export const caseStudies: CaseStudy[] = [
       solution:
         'A service built on one idea: the owner registers with us their right to more cover, not a warranty. The maker’s registration, filed in the owner’s name, is the way in. After that the service keeps the proof of purchase and keeps looking for ways to extend the cover.',
       outcome:
-        'Not open to the public yet, so there are no customer results. So far a prototype has registered one real appliance — our own — end to end on a manufacturer’s UK site, and the terms of nine brands have been checked.',
+        'Not open to the public yet, so there are no customer results. So far a prototype has registered one real appliance — our own — end to end on a manufacturer’s UK site, too late for that machine to earn extra years, and the terms of nine brands were checked in September 2026.',
     },
     story: [
       {
@@ -534,7 +534,7 @@ export const caseStudies: CaseStudy[] = [
             ],
           },
           'The maker’s registration — the one people forget — is where it starts. The proof of purchase is kept from the first day, because it is the part that keeps its value whatever a maker later changes in its terms.',
-          'That is how the product is specified. What has actually been built so far is set out further down.',
+          'Keeping the documents and the proof of purchase works today. The search for more cover is how the product is specified; it is not built yet. What exists so far is set out further down.',
         ],
       },
       {
@@ -557,7 +557,7 @@ export const caseStudies: CaseStudy[] = [
         body: [
           'Each owner has an account listing their appliances, with the documents for each: a photo of the rating plate, the receipt, the confirmation of registration.',
           'Each owner also gets their own email address on the service’s domain. Forward the shop’s invoice to it, and the email is filed under the right appliance.',
-          'Where the owner already has an account with a manufacturer, the robot can read the appliances listed there and bring them across, with their photos. This works on two brands’ UK sites so far.',
+          'Where the owner already has an account with a manufacturer, the robot can read the appliances listed there and bring them across, with their photos. This works on one manufacturer’s UK site so far; a second brand shares the same sign-in system and is supported in the code, but has not been run against yet.',
         ],
       },
       {
@@ -567,7 +567,7 @@ export const caseStudies: CaseStudy[] = [
             list: [
               'It does not promise to extend anyone’s warranty or to win back years already missed. What a maker offers is up to the maker.',
               'It has no link with any manufacturer. Warranty++ is not a partner or a representative of any of them; it acts for the owner, in the owner’s account.',
-              'When a maker does not honour a warranty or drags out a repair, the service is meant to say who can sort it out quickly — and, before the owner decides, what that choice means for the warranty. With most makers, a repair by someone they have not authorised ends the warranty on that appliance. In the UK the seller is also responsible for faulty goods, and pressing the seller is often the faster route and costs the buyer nothing.',
+              'Specified, not built: when a maker does not honour a warranty or drags out a repair, the service is meant to say who can sort it out quickly — and, before the owner decides, what that choice means for the warranty. With most makers, a repair by someone they have not authorised ends the warranty on that appliance. In the UK the seller is also responsible for faulty goods, and pressing the seller is often the faster route and costs the buyer nothing.',
             ],
           },
           'These limits are part of the product. A service that acts in someone else’s name has to be able to show, step by step, what it did.',
@@ -580,11 +580,12 @@ export const caseStudies: CaseStudy[] = [
           {
             list: [
               'one real appliance — our own — registered end to end on a manufacturer’s UK site by a prototype on 2 October 2026, with the status “registered” and a product identifier returned;',
-              'the import of appliances from an owner’s manufacturer account, working on two brands’ UK sites;',
-              'five documented runs against real manufacturers’ sites, with dates and results, including the ones that failed;',
-              'terms and deadlines checked for nine brands, each with its source.',
+              'the import of appliances from an owner’s manufacturer account, working on one manufacturer’s UK site; a second brand shares the same sign-in system and is supported in the code, but has not been run against yet;',
+              'five documented runs against a real manufacturer’s site, with dates and results, including the ones that failed;',
+              'terms and deadlines checked in September 2026 for nine brands, each with its source.',
             ],
           },
+          'The registration went through and the appliance appeared in the account, but the three-month window for that machine had closed months earlier, so it earns no extra years. That is the whole point of the product, demonstrated on our own machine: a registration accepted by a maker’s site is not the same as extra cover.',
           'What does not exist yet is a finished automatic registration flow.',
         ],
       },

@@ -487,8 +487,12 @@ export const caseStudies: CaseStudy[] = [
     //   "Extra years" can be missed; the warranty itself is never "lost".
     //   The line "standard warranty needs no registration" stays on the
     //   product pages, not here.
-    // - No brand names or logos: their rule sends trademarks in advertising
-    //   to a lawyer first, and this page is advertising.
+    // - Brands named as fact only, with the founder's permission given
+    //   2026-11-05: no logos, no hint of partnership or endorsement, the
+    //   "no link with any manufacturer" line stays, and every figure from
+    //   makers' terms sits next to the reading date and "terms change".
+    // - The automation library is not named (founder, 2026-11-05). Never
+    //   write "plain Playwright".
     // - Today a member of staff passes the human checks. Asking the owner for
     //   the code is designed, not built — do not write it as working.
     // - The search for more cover and the repair advice are the product
@@ -502,20 +506,20 @@ export const caseStudies: CaseStudy[] = [
     status: 'in-progress',
     checked: '2026-11-05',
     lede:
-      'Extra years of warranty are often given only to buyers who register the purchase within 28 to 90 days. Warranty++ does that registration for the buyer, in the buyer’s name, without bypassing a single check on the manufacturer’s site.',
+      'Extra years of warranty are often given only to buyers who register the purchase within 28 to 90 days (makers’ terms as read in September 2026). Warranty++ does that registration for the buyer, in the buyer’s name, without bypassing a single check on the manufacturer’s site.',
     summary: {
       challenge:
         'Several large appliance makers add extra years of warranty on top of the standard cover, but only for buyers who register within a short window after purchase. People do not know about the window or forget it, and often find out they missed the extra years only when the machine breaks.',
       solution:
         'A service built on one idea: the owner registers with us their right to more cover, not a warranty. The maker’s registration, filed in the owner’s name, is the way in. After that the service keeps the proof of purchase and keeps looking for ways to extend the cover.',
       outcome:
-        'Not open to the public yet, so there are no customer results. So far a prototype has registered one real appliance — our own — end to end on a manufacturer’s UK site, too late for that machine to earn extra years, and the terms of nine brands were checked in September 2026.',
+        'Not open to the public yet, so there are no customer results. So far a prototype has registered one real appliance — our own — end to end on the Bosch UK site, too late for that machine to earn extra years, and the terms of nine brands were checked in September 2026.',
     },
     story: [
       {
         heading: 'The extra years people miss',
         body: [
-          'Several of the big appliance makers offer extra years of warranty on top of the standard cover — on some machines as much as ten years on certain parts. The catch is a short window: the purchase has to be registered on the maker’s website, usually within 28 to 90 days. That is from the makers’ published terms as we read them in September 2026, and terms change.',
+          'Several of the big appliance makers offer extra years of warranty on top of the standard cover. Bosch, for example, offers ten years on a washing machine motor if the machine is registered within three months of delivery. The catch is a short window: the purchase has to be registered on the maker’s website, usually within 28 to 90 days depending on the maker. All of this is from the makers’ published terms as we read them in September 2026, and terms change.',
           'Few people know the window exists, and those who do tend to forget. Many find out only when the machine breaks, years later, long after the window closed.',
           'There is a second, quieter problem. A maker is entitled to change its terms, and when a claim comes years later it can ask for the receipt. By then the receipt has to be found.',
         ],
@@ -540,7 +544,7 @@ export const caseStudies: CaseStudy[] = [
       {
         heading: 'A robot that follows the rules',
         body: [
-          'None of the manufacturers we checked in the UK offers a public way for software to register a purchase. So the only way to do it for someone is the way they would do it themselves: on the maker’s website, in a browser.',
+          'None of the nine manufacturers we checked in the UK offers a public way for software to register a purchase. So the only way to do it for someone is the way they would do it themselves: on the maker’s website, in a browser.',
           {
             list: [
               'The robot works in an ordinary browser on a dedicated machine. It signs in to the owner’s own account on the maker’s site and files the registration in the owner’s name — never in ours.',
@@ -557,7 +561,7 @@ export const caseStudies: CaseStudy[] = [
         body: [
           'Each owner has an account listing their appliances, with the documents for each: a photo of the rating plate, the receipt, the confirmation of registration.',
           'Each owner also gets their own email address on the service’s domain. Forward the shop’s invoice to it, and the email is filed under the right appliance.',
-          'Where the owner already has an account with a manufacturer, the robot can read the appliances listed there and bring them across, with their photos. This works on one manufacturer’s UK site so far; a second brand shares the same sign-in system and is supported in the code, but has not been run against yet.',
+          'Where the owner already has an account with a manufacturer, the robot can read the appliances listed there and bring them across, with their photos. This works on the Bosch UK site. Siemens uses the same sign-in system and is supported in the code, but has not been run against yet.',
         ],
       },
       {
@@ -566,7 +570,7 @@ export const caseStudies: CaseStudy[] = [
           {
             list: [
               'It does not promise to extend anyone’s warranty or to win back years already missed. What a maker offers is up to the maker.',
-              'It has no link with any manufacturer. Warranty++ is not a partner or a representative of any of them; it acts for the owner, in the owner’s account.',
+              'It has no link with any manufacturer, including the ones named on this page. Warranty++ is not a partner, an authorised agent or a representative of Bosch or any other maker, and none of them has endorsed it. It acts for the owner, in the owner’s account.',
               'Specified, not built: when a maker does not honour a warranty or drags out a repair, the service is meant to say who can sort it out quickly — and, before the owner decides, what that choice means for the warranty. With most makers, a repair by someone they have not authorised ends the warranty on that appliance. In the UK the seller is also responsible for faulty goods, and pressing the seller is often the faster route and costs the buyer nothing.',
             ],
           },
@@ -579,10 +583,10 @@ export const caseStudies: CaseStudy[] = [
           'The website and the app run in production, but the service is not open to the public yet. There are no customers, so there are no customer results to report. What exists:',
           {
             list: [
-              'one real appliance — our own — registered end to end on a manufacturer’s UK site by a prototype on 2 October 2026, with the status “registered” and a product identifier returned;',
-              'the import of appliances from an owner’s manufacturer account, working on one manufacturer’s UK site; a second brand shares the same sign-in system and is supported in the code, but has not been run against yet;',
-              'five documented runs against a real manufacturer’s site, with dates and results, including the ones that failed;',
-              'terms and deadlines checked in September 2026 for nine brands, each with its source.',
+              'one real appliance — our own Bosch washing machine — registered end to end on the Bosch UK site by a prototype on 2 October 2026, with the status “registered” and a product identifier returned;',
+              'the import of appliances from an owner’s manufacturer account, working on the Bosch UK site; Siemens uses the same sign-in system and is supported in the code, but has not been run against yet;',
+              'five documented runs against the Bosch UK site, with dates and results, including the ones that failed;',
+              'terms and deadlines checked in September 2026 for nine brands — Bosch, Beko, Haier, Candy, AEG, Samsung, LG, Miele and Shark — each with its source. Terms change; these are as they stood then.',
             ],
           },
           'The registration went through and the appliance appeared in the account, but the three-month window for that machine had closed months earlier, so it earns no extra years. That is the whole point of the product, demonstrated on our own machine: a registration accepted by a maker’s site is not the same as extra cover.',

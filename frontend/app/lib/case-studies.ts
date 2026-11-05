@@ -32,6 +32,13 @@ export interface CaseStudy {
   slug: string
   /** Result-led headline. Under ~70 characters. */
   title: string
+  /**
+   * What Google shows in results: 60 characters at most, no brand suffix
+   * (Google prints the site name itself) and no figures (Google rewrites
+   * titles with numbers). Same facts as `title`, never stronger. Falls back
+   * to `title` when that already fits.
+   */
+  seoTitle?: string
   /** Who it was for, as they may be named in public. */
   client: string
   industry: string
@@ -64,6 +71,7 @@ export const caseStudies: CaseStudy[] = [
     // Autoe session's build and network measurements and Search Console URL
     // Inspection, before and after. Checked 2026-11-04.
     title: '168 blog articles that opened fine for everyone except Google',
+    seoTitle: 'Soft 404: why Google refused to index a working blog',
     client: 'AutoE',
     industry: 'EV charging',
     location: 'London, UK',
@@ -169,6 +177,7 @@ export const caseStudies: CaseStudy[] = [
     // intake). Council FOI statistics are not GetOSH results and are not
     // used. Models and prompts are not named.
     title: 'A parking-fine dispute kept in one place, from photo to appeal',
+    seoTitle: 'A parking-fine dispute kept in one place',
     client: 'GetOSH',
     industry: 'Consumer legal services',
     location: 'United Kingdom',
@@ -369,6 +378,7 @@ export const caseStudies: CaseStudy[] = [
     // only Romanian pages (1,017 of them exactly one); 1,077 saw a Romanian
     // page at all; 29 of those started on it and went on, ordered by time.
     title: 'The page that took 46% of Argo Aero’s clicks, and no enquiries',
+    seoTitle: 'The Argo Aero page with the most clicks and no enquiries',
     client: 'Argo Aero',
     industry: 'Aviation — gyroplane and helicopter sales',
     location: 'London, UK',
@@ -501,6 +511,7 @@ export const caseStudies: CaseStudy[] = [
     //   specification, written here as what the service is built to do.
     // - The founder is not named (owner's instruction, 2026-11-05).
     title: 'A warranty service where registering the appliance is only the start',
+    seoTitle: 'Warranty++: registering the appliance is only the start',
     client: 'Warranty++',
     industry: 'Consumer services — home appliance warranties',
     location: 'United Kingdom',

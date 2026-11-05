@@ -20,11 +20,14 @@ export async function generateMetadata(
   if (!study?.published) return {}
   const canonical = `/case-studies/${slug}`
   const description = clamp(`${study.lede} ${study.summary.outcome}`)
+  // Absolute: the layout's " · OpenMind+" suffix would push these past 60
+  // characters, and Google shows the site name on its own line anyway.
+  const title = study.seoTitle ?? study.title
   return {
-    title: study.title,
+    title: { absolute: title },
     description,
     alternates: { canonical },
-    openGraph: { type: 'article', url: canonical, title: study.title, description },
+    openGraph: { type: 'article', url: canonical, title, description },
   }
 }
 

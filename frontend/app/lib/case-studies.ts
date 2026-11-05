@@ -474,7 +474,7 @@ export const caseStudies: CaseStudy[] = [
     },
     projectSlug: 'argo-aero',
     url: 'https://argoaero.co.uk',
-    published: false,
+    published: true,
   },
   {
     slug: 'warranty-plus-plus-registration-is-the-way-in',
@@ -616,7 +616,7 @@ export const caseStudies: CaseStudy[] = [
     },
     projectSlug: 'warranty-plus-plus',
     url: 'https://warrantyplusplus.com',
-    published: false,
+    published: true,
   },
 ]
 

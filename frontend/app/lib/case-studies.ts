@@ -476,6 +476,141 @@ export const caseStudies: CaseStudy[] = [
     url: 'https://argoaero.co.uk',
     published: false,
   },
+  {
+    slug: 'warranty-plus-plus-registration-is-the-way-in',
+    // Material from the Warranty plus session, 2026-11-05, with the founder's
+    // corrections. Held until the founder has read it: there is no company
+    // yet, so public claims about the service are his responsibility.
+    // - No results exist: no users, no revenue, the automatic registration
+    //   flow is unfinished. A product-and-approach study, nothing more.
+    // - CAP Code: never imply the standard warranty depends on registration.
+    //   "Extra years" can be missed; the warranty itself is never "lost".
+    //   The line "standard warranty needs no registration" stays on the
+    //   product pages, not here.
+    // - No brand names or logos: their rule sends trademarks in advertising
+    //   to a lawyer first, and this page is advertising.
+    // - Today a member of staff passes the human checks. Asking the owner for
+    //   the code is designed, not built — do not write it as working.
+    // - The search for more cover and the repair advice are the product
+    //   specification, written here as what the service is built to do.
+    // - The founder is not named (owner's instruction, 2026-11-05).
+    title: 'A warranty service where registering the appliance is only the start',
+    client: 'Warranty++',
+    industry: 'Consumer services — home appliance warranties',
+    location: 'United Kingdom',
+    period: '2026 — ongoing',
+    status: 'in-progress',
+    checked: '2026-11-05',
+    lede:
+      'Extra years of warranty are often given only to buyers who register the purchase within 28 to 90 days. Warranty++ does that registration for the buyer, in the buyer’s name, without bypassing a single check on the manufacturer’s site.',
+    summary: {
+      challenge:
+        'Several large appliance makers add extra years of warranty on top of the standard cover, but only for buyers who register within a short window after purchase. People do not know about the window or forget it, and often find out they missed the extra years only when the machine breaks.',
+      solution:
+        'A service built on one idea: the owner registers with us their right to more cover, not a warranty. The maker’s registration, filed in the owner’s name, is the way in. After that the service keeps the proof of purchase and keeps looking for ways to extend the cover.',
+      outcome:
+        'Not open to the public yet, so there are no customer results. So far a prototype has registered one real appliance — our own — end to end on a manufacturer’s UK site, and the terms of nine brands have been checked.',
+    },
+    story: [
+      {
+        heading: 'The extra years people miss',
+        body: [
+          'Several of the big appliance makers offer extra years of warranty on top of the standard cover — on some machines as much as ten years on certain parts. The catch is a short window: the purchase has to be registered on the maker’s website, usually within 28 to 90 days. That is from the makers’ published terms as we read them in September 2026, and terms change.',
+          'Few people know the window exists, and those who do tend to forget. Many find out only when the machine breaks, years later, long after the window closed.',
+          'There is a second, quieter problem. A maker is entitled to change its terms, and when a claim comes years later it can ask for the receipt. By then the receipt has to be found.',
+        ],
+      },
+      {
+        heading: 'Registration is the way in, not the service',
+        body: [
+          'The idea the service is built on: a person does not register a warranty with us. They register their right to more of it.',
+          'Once the service knows what the appliance is and what cover it has, the job is to keep looking for ways to extend that cover:',
+          {
+            list: [
+              'a maker opens a promotion that adds years;',
+              'a paid extension appears that is worth taking;',
+              'a maker launches a new programme;',
+              'a batch of that model is recalled.',
+            ],
+          },
+          'The maker’s registration — the one people forget — is where it starts. The proof of purchase is kept from the first day, because it is the part that keeps its value whatever a maker later changes in its terms.',
+          'That is how the product is specified. What has actually been built so far is set out further down.',
+        ],
+      },
+      {
+        heading: 'A robot that follows the rules',
+        body: [
+          'None of the manufacturers we checked in the UK offers a public way for software to register a purchase. So the only way to do it for someone is the way they would do it themselves: on the maker’s website, in a browser.',
+          {
+            list: [
+              'The robot works in an ordinary browser on a dedicated machine. It signs in to the owner’s own account on the maker’s site and files the registration in the owner’s name — never in ours.',
+              'It does not get around CAPTCHAs, “I’m not a robot” checks or anti-bot protection. That is a written rule of the project. When a site asks for a person, the task stops and is marked as waiting for a person, with the reason, and a notification goes out. Today a member of our team completes the check in the visible browser, and the task carries on from the same step.',
+              'It never changes a date, a name or the buyer to get extra years, and it never agrees to marketing emails on the owner’s behalf.',
+              'Every step is logged with screenshots and copies of the pages, so it can be shown later exactly what was sent.',
+            ],
+          },
+          'The next step is designed but not built: when a maker’s site sends a code by email or text, the owner will be asked for it through their account.',
+        ],
+      },
+      {
+        heading: 'The paperwork, in one place',
+        body: [
+          'Each owner has an account listing their appliances, with the documents for each: a photo of the rating plate, the receipt, the confirmation of registration.',
+          'Each owner also gets their own email address on the service’s domain. Forward the shop’s invoice to it, and the email is filed under the right appliance.',
+          'Where the owner already has an account with a manufacturer, the robot can read the appliances listed there and bring them across, with their photos. This works on two brands’ UK sites so far.',
+        ],
+      },
+      {
+        heading: 'What it will not promise',
+        body: [
+          {
+            list: [
+              'It does not promise to extend anyone’s warranty or to win back years already missed. What a maker offers is up to the maker.',
+              'It has no link with any manufacturer. Warranty++ is not a partner or a representative of any of them; it acts for the owner, in the owner’s account.',
+              'When a maker does not honour a warranty or drags out a repair, the service is meant to say who can sort it out quickly — and, before the owner decides, what that choice means for the warranty. With most makers, a repair by someone they have not authorised ends the warranty on that appliance. In the UK the seller is also responsible for faulty goods, and pressing the seller is often the faster route and costs the buyer nothing.',
+            ],
+          },
+          'These limits are part of the product. A service that acts in someone else’s name has to be able to show, step by step, what it did.',
+        ],
+      },
+      {
+        heading: 'Where it stands',
+        body: [
+          'The website and the app run in production, but the service is not open to the public yet. There are no customers, so there are no customer results to report. What exists:',
+          {
+            list: [
+              'one real appliance — our own — registered end to end on a manufacturer’s UK site by a prototype on 2 October 2026, with the status “registered” and a product identifier returned;',
+              'the import of appliances from an owner’s manufacturer account, working on two brands’ UK sites;',
+              'five documented runs against real manufacturers’ sites, with dates and results, including the ones that failed;',
+              'terms and deadlines checked for nine brands, each with its source.',
+            ],
+          },
+          'What does not exist yet is a finished automatic registration flow.',
+        ],
+      },
+      {
+        heading: 'Where it is going',
+        body: [
+          'The longer idea, not built: keep the whole life of the appliances in a home together, tied to the address — documents, service history, replaced parts, offers to replace a machine — and hand those records over when an appliance or a home is sold.',
+          'The records, not the warranty: with most makers a warranty cannot be transferred at all. Where a maker allows it, the appliance would be registered again to the new owner.',
+        ],
+      },
+    ],
+    technical: {
+      stack: ['Next.js', 'TypeScript', 'React', 'Vite', 'Redux Toolkit', 'Node.js', 'Koa', 'Sequelize', 'MySQL', 'Playwright', 'S3', 'SendGrid'],
+      notes: [
+        'Three parts: a statically exported marketing site (Next.js, TypeScript, Tailwind), an owner account and admin app (React, Vite, MUI, Redux Toolkit), and an API (Node.js, Koa, Sequelize, MySQL).',
+        'Registration jobs sit in a task queue in the database, and worker machines connect to it to take them. A job that needs a person moves to a waiting state with a reason, an alert goes to Telegram, and the job resumes from the same step once the check is done.',
+        'The robot drives a real, visible browser through Playwright-based automation, so that a person can take over the same session when a site asks for one.',
+        'Every step writes a log entry with a screenshot and a copy of the page — an audit trail of exactly what was submitted on the owner’s behalf.',
+        'Workers update themselves: a target code version is set centrally, and each worker finishes its current job, updates and restarts.',
+        'Each owner has a personal inbound address; forwarded invoices are matched to the right appliance. Outbound email goes through SendGrid, and files are kept in S3-compatible object storage.',
+      ],
+    },
+    projectSlug: 'warranty-plus-plus',
+    url: 'https://warrantyplusplus.com',
+    published: false,
+  },
 ]
 
 export function publishedStudies(): CaseStudy[] {

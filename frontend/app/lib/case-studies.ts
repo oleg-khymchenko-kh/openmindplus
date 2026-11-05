@@ -481,8 +481,10 @@ export const caseStudies: CaseStudy[] = [
     // Material from the Warranty plus session, 2026-11-05, with the founder's
     // corrections. Held until the founder has read it: there is no company
     // yet, so public claims about the service are his responsibility.
-    // - No results exist: no users, no revenue, the automatic registration
-    //   flow is unfinished. A product-and-approach study, nothing more.
+    // - No results exist: sign-up is open (founder: "Оставить, я отвечаю
+    //   лично") but nobody outside the team has signed up as of 2026-11-05;
+    //   no revenue; the automatic registration flow is unfinished. A
+    //   product-and-approach study. Do not publish the zero as a figure.
     // - CAP Code: never imply the standard warranty depends on registration.
     //   "Extra years" can be missed; the warranty itself is never "lost".
     //   The line "standard warranty needs no registration" stays on the
@@ -513,7 +515,7 @@ export const caseStudies: CaseStudy[] = [
       solution:
         'A service built on one idea: the owner registers with us their right to more cover, not a warranty. The maker’s registration, filed in the owner’s name, is the way in. After that the service keeps the proof of purchase and keeps looking for ways to extend the cover.',
       outcome:
-        'Not open to the public yet, so there are no customer results. So far a prototype has registered one real appliance — our own — end to end on the Bosch UK site, too late for that machine to earn extra years, and the terms of nine brands were checked in September 2026.',
+        'Open for early sign-ups, with the queue worked by hand; no customers yet, so no customer results. So far a prototype has registered one real appliance — our own — end to end on the Bosch UK site, too late for that machine to earn extra years, and the terms of nine brands were checked in September 2026.',
     },
     story: [
       {
@@ -580,7 +582,7 @@ export const caseStudies: CaseStudy[] = [
       {
         heading: 'Where it stands',
         body: [
-          'The website and the app run in production, but the service is not open to the public yet. There are no customers, so there are no customer results to report. What exists:',
+          'The website and the app run in production. Sign-up is open on the website, and the queue behind it is worked by hand while the automatic registration is being built: a new account gets an email that says exactly that. Nobody outside the team has signed up yet, so there are no customer results to report. What exists:',
           {
             list: [
               'one real appliance — our own Bosch washing machine — registered end to end on the Bosch UK site by a prototype on 2 October 2026, with the status “registered” and a product identifier returned;',
